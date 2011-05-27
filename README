@@ -1,13 +1,13 @@
 rfetch is a ruby gem to manage remote-project-sets (rps) for different repositories
 
-usage: rfetch [-f <rps-file>|{rfetch.rps}] [-d <directory>|{.}] <command>
+usage: rfetch [-f <rps-file>|{rfetch.rps}|-f <remote-rps-file> -n <rps-nature> -r <revision>] [-d <directory>|{.}] <command>
 
 were command is
 
--pull			pull remote to local
--push			push local to remote
--revert			revert local
--tag <url>		tag local to url
+-pull					pull remote to local
+-push <message>			push local to remote
+-revert					revert local
+-tag <url>				tag local to url
 
 were rps is a file of format:
 
