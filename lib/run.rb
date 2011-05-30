@@ -2,5 +2,5 @@
 
 require 'rfetch'
 
-rfetch = RFetch.new()
+rfetch = RFetchGem.new()
 rfetch.run()
