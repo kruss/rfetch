@@ -4,23 +4,29 @@ require "rfetch"
 
 class RFetch2Rake
   
-  def initialize(sets)
+  def initialize(set)
     
-    @sets = sets
+    @set = set
     @tasks = Array.new
     
     initialize_tasks()
   end
-  attr_accessor :sets
+  attr_accessor :set
   attr_accessor :tasks
   
+private
+
   def initialize_tasks()
     
-    @tasks << InfoTask.new(@sets).getTask()
-    @sets.each do |set|
-      @tasks << PullTask.new(set).getTask()
-      # TODO more tasks here
-    end
+    @tasks << InfoTask.new(@set).getTask()
+    @tasks << PullTask.new(@set).getTask()
+    # TODO more tasks here
+    
+    setDefaultTask()
+  end
+  
+  def setDefaultTask()
+    task :default => [InfoTask::TASK_NAME]
   end
 
 end

@@ -3,32 +3,32 @@
 require "rfetch"
 
 class InfoTask
+  TASK_NAME = "info"
   
-  def initialize(sets)
-    @sets = sets
+  def initialize(set)
+    @set = set
   end
   attr_accessor :sets
   
   def getTask()
     
-      desc "info on project-sets"
-      task "info" do
+      desc "info on project-set"
+      task TASK_NAME do
         runTask()
       end
   end
   
+private
+
   def runTask()
     
-    @sets.each do |set|
-      puts "+ #{set.name}"
-      set.containers.each do |container|
-        puts "|- #{container.uri} (#{container.nature})"
-        container.projects.each do |project|
-          if project.localname != nil then
-            puts "|\t|- #{project.name} -> #{project.localname} (#{project.revision})"
-          else
-            puts "|\t|- #{project.name} (#{project.revision})"
-          end
+    @set.containers.each do |container|
+      puts "+ #{container.uri} (#{container.nature})"
+      container.projects.each do |project|
+        if project.localname != nil then
+          puts "|- #{project.name} -> #{project.localname} (#{project.revision})"
+        else
+          puts "|- #{project.name} (#{project.revision})"
         end
       end
     end

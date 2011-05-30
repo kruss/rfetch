@@ -3,11 +3,9 @@ $REVISION_HEAD = "HEAD"
 
 class ProjectSet
   
-  def initialize(name)
-    @name = name
+  def initialize()
     @containers = Array.new
   end
-  attr_accessor :name
   attr_accessor :containers
   
 end

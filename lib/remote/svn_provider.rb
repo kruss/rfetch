@@ -1,34 +1,34 @@
 
-$SVN_NATURE = "SVN"
-
 class SvnProvider
+  NATURE = "SVN"
   
-  def initialize(projecSet)
-    if !projectSet.nature.eql?($SVN_NATURE) then
-      raise "not my nature: "+projectSet.nature
-    end
-    
-    @projecSet = projecSet
+  def initialize()
+    @nature = NATURE
   end
-  attr_accessor :projectSet
+  attr_accessor :nature
   
-  def pull(directory)
+  def pull(container, path)
     
-    projectSet.containers.each do |container|
-      containerUrl = container.uri
-      puts $SVN_NATURE+" pull ["+containerUrl+"]"
       container.projects.each do |project|
-        projectUrl = containerUrl+"/"+project.name
+        url = container.uri+"/"+project.name
         revision = project.revision
-        path = directory+"/"+project.getLocalName()
-        pull(projectUrl, revision, path)
+        path = project.localname == nil ? path+"/"+project.name : path+"/"+project.localname
+        
+        pullProject(url, revision, path)
       end
-    end
   end
   
-  def pull(url, revision, path)
-     puts $SVN_NATURE+" pull: "+url+" ("+revision+") -> "+path
-     # TODO
+private
+
+  def pullProject(url, revision, path)
+    
+    if !FileTest.directory?(path) then 
+      puts "pull initial\n- from: "+url+" ("+revision+")\n- to: "+path
+      
+    else
+      puts "pull update\n- from: "+url+" ("+revision+")\n- to: "+path
+      
+    end
   end
   
 end
