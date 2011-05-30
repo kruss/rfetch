@@ -7,28 +7,61 @@ class SvnProvider
   end
   attr_accessor :nature
   
-  def pull(container, path)
+  def pull(container, root)
     
       container.projects.each do |project|
-        url = container.uri+"/"+project.name
+        path = project.localname == nil ? root+"/"+project.name : root+"/"+project.localname
         revision = project.revision
-        path = project.localname == nil ? path+"/"+project.name : path+"/"+project.localname
         
-        pullProject(url, revision, path)
+        if !FileTest.directory?(path) then 
+          url = container.uri+"/"+project.name
+          puts "+ pull initial\n\t- url "+url+" ("+revision+")\n\t- path "+path
+          checkoutProject(url, path, revision)
+        else
+          puts "+ pull update\n\t- path "+path+" ("+revision+")"
+          updateProject(path, revision) 
+        end
       end
+  end
+  
+  def revert(container, root)
+  
+    container.projects.each do |project|
+      path = project.localname == nil ? root+"/"+project.name : root+"/"+project.localname
+      if FileTest.directory?(path) then 
+        puts "+ revert\n\t- path "+path
+        revertProject(path)
+      end
+    end
+  end
+  
+  def diff(container, root)
+  
+    container.projects.each do |project|
+      path = project.localname == nil ? root+"/"+project.name : root+"/"+project.localname
+      if FileTest.directory?(path) then 
+        puts "+ diff\n\t- path "+path
+        diffProject(path)
+      end
+    end
   end
   
 private
 
-  def pullProject(url, revision, path)
-    
-    if !FileTest.directory?(path) then 
-      puts "pull initial\n- from: "+url+" ("+revision+")\n- to: "+path
-      
-    else
-      puts "pull update\n- from: "+url+" ("+revision+")\n- to: "+path
-      
-    end
+  def checkoutProject(url, path, revision)
+    sh "svn -r #{revision} checkout #{url} #{path}"
+  end
+  
+  def updateProject(path, revision)
+    sh "svn -r #{revision} update #{path}"
+  end
+  
+  def revertProject(path)
+    sh "svn -R revert #{path}"
+  end
+  
+  def diffProject(path)
+    sh "svn diff #{path}"
   end
   
 end

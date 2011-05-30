@@ -20,6 +20,8 @@ private
     
     @tasks << InfoTask.new(@set).getTask()
     @tasks << PullTask.new(@set).getTask()
+    @tasks << DiffTask.new(@set).getTask()
+    @tasks << RevertTask.new(@set).getTask()
     # TODO more tasks here
     
     setDefaultTask()

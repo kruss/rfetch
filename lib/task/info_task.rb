@@ -26,9 +26,9 @@ private
       puts "+ #{container.uri} (#{container.nature})"
       container.projects.each do |project|
         if project.localname != nil then
-          puts "|- #{project.name} -> #{project.localname} (#{project.revision})"
+          puts "\t- #{project.name} -> #{project.localname} (#{project.revision})"
         else
-          puts "|- #{project.name} (#{project.revision})"
+          puts "\t- #{project.name} (#{project.revision})"
         end
       end
     end
