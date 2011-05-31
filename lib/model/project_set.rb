@@ -48,6 +48,10 @@ class Container
     provider.revert(self, @set.getRoot())
   end
   
+  def drop()
+    provider.drop(self, @set.getRoot())
+  end
+  
 end
 
 class Project

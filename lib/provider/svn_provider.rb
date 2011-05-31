@@ -57,6 +57,20 @@ class SvnProvider
     end
   end
   
+  def drop(container, root)
+  
+    container.projects.each do |project|
+      path = root+"/"+project.localname
+      
+      if FileTest.directory?(path) then 
+        puts $PROMPT+" delete -> "+path
+        deleteProject(path)
+      else
+        puts $PROMPT+" not existing -> "+path
+      end
+    end
+  end
+  
 private
 
   def checkoutProject(url, revision, path)
@@ -73,6 +87,10 @@ private
   
   def revertProject(path)
     sh "svn -R revert #{path}"
+  end
+  
+  def deleteProject(path)
+    FileUtils.rm_rf(path)
   end
   
 end

@@ -25,6 +25,7 @@ private
     @tasks << PullTask.new(@set).initTask()
     @tasks << StatusTask.new(@set).initTask()
     @tasks << RevertTask.new(@set).initTask()
+    @tasks << DropTask.new(@set).initTask()
   end
 
 end
@@ -54,5 +55,12 @@ class RevertTask < GenericTask
   
   def initialize(set)
     super("revert", "revert project-set", set)
+  end
+end
+
+class DropTask < GenericTask
+  
+  def initialize(set)
+    super("drop", "drop project-set", set)
   end
 end
