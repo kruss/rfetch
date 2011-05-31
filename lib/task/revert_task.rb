@@ -1,20 +1,17 @@
-# task pulling a project-set
 
 require "rfetch"
 
 class RevertTask
-  TASK_NAME = "revert"
-    
+
   def initialize(set)
     @set = set
-    @path = Dir.getwd
   end
   attr_accessor :set
   
   def getTask()
     
       desc "revert the project-set"
-      task TASK_NAME do
+      task "revert" do
           runTask()
       end
   end
@@ -23,10 +20,9 @@ private
 
   def runTask()
     
+    root = Pathname.new(Dir.getwd+"/"+@set.root).cleanpath.to_s
     @set.containers.each do |container|
-
-      provider = Providers.getProvider(container.nature) 
-      provider.revert(container, @path)
+      container.revert(root)
     end
   end
 

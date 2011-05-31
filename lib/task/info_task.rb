@@ -1,19 +1,17 @@
-# task providing info on a project-set
 
 require "rfetch"
 
 class InfoTask
-  TASK_NAME = "info"
   
   def initialize(set)
     @set = set
   end
-  attr_accessor :sets
+  attr_accessor :set
   
   def getTask()
     
       desc "info on project-set"
-      task TASK_NAME do
+      task "info" do
         runTask()
       end
   end
@@ -23,12 +21,12 @@ private
   def runTask()
     
     @set.containers.each do |container|
-      puts "+ #{container.uri} (#{container.nature})"
+      puts "+ #{container.provider.info}"
       container.projects.each do |project|
-        if project.localname != nil then
-          puts "\t- #{project.name} -> #{project.localname} (#{project.revision})"
+        if project.name.eql?(project.localname) then
+          puts "|- #{project.name}"
         else
-          puts "\t- #{project.name} (#{project.revision})"
+          puts "|- #{project.name} -> #{project.localname}"
         end
       end
     end

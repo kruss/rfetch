@@ -1,20 +1,17 @@
-# task pulling a project-set
 
 require "rfetch"
 
 class DiffTask
-  TASK_NAME = "diff"
-    
+
   def initialize(set)
     @set = set
-    @path = Dir.getwd
   end
   attr_accessor :set
   
   def getTask()
     
-      desc "diff for the project-set"
-      task TASK_NAME do
+      desc "diff of project-set"
+      task "diff" do
           runTask()
       end
   end
@@ -23,10 +20,9 @@ private
 
   def runTask()
     
+    root = Pathname.new(Dir.getwd+"/"+@set.root).cleanpath.to_s
     @set.containers.each do |container|
-
-      provider = Providers.getProvider(container.nature) 
-      provider.diff(container, @path)
+      container.diff(root)
     end
   end
 

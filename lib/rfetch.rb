@@ -1,6 +1,7 @@
 # all requires and constants here
 
 require "rake"
+require "pathname"
 require "optparse"
 require "util/logger"
 

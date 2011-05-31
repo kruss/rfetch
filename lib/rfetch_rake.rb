@@ -18,17 +18,13 @@ private
 
   def initialize_tasks()
     
-    @tasks << InfoTask.new(@set).getTask()
+    infoTask = InfoTask.new(@set).getTask()
+    task :default => infoTask.name
+    @tasks << infoTask
+  
     @tasks << PullTask.new(@set).getTask()
     @tasks << DiffTask.new(@set).getTask()
     @tasks << RevertTask.new(@set).getTask()
-    # TODO more tasks here
-    
-    setDefaultTask()
-  end
-  
-  def setDefaultTask()
-    task :default => [InfoTask::TASK_NAME]
   end
 
 end

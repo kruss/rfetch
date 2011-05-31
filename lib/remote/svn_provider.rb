@@ -1,67 +1,74 @@
 
 class SvnProvider
-  NATURE = "SVN"
+  HEAD_REVISION = "HEAD"
   
-  def initialize()
-    @nature = NATURE
+  def initialize(url, revision)
+    @url = url
+    @revision = revision 
   end
-  attr_accessor :nature
+  attr_accessor :url
+  attr_accessor :revision
+  
+  def info
+    return "SVN -> #{@url} (#{revision})"
+  end
   
   def pull(container, root)
     
       container.projects.each do |project|
-        path = project.localname == nil ? root+"/"+project.name : root+"/"+project.localname
-        revision = project.revision
+        path = root+"/"+project.localname
         
         if !FileTest.directory?(path) then 
-          url = container.uri+"/"+project.name
-          puts "+ pull initial\n\t- url "+url+" ("+revision+")\n\t- path "+path
-          checkoutProject(url, path, revision)
+          url = @url+"/"+project.name
+          puts "+ pull initial -> "+url+" ("+@revision+") -> "+path
+          checkoutProject(url, @revision, path)
         else
-          puts "+ pull update\n\t- path "+path+" ("+revision+")"
-          updateProject(path, revision) 
+          puts "+ pull update -> "+path+" ("+@revision+")"
+          updateProject(@revision, path) 
         end
       end
-  end
-  
-  def revert(container, root)
-  
-    container.projects.each do |project|
-      path = project.localname == nil ? root+"/"+project.name : root+"/"+project.localname
-      if FileTest.directory?(path) then 
-        puts "+ revert\n\t- path "+path
-        revertProject(path)
-      end
-    end
   end
   
   def diff(container, root)
   
     container.projects.each do |project|
-      path = project.localname == nil ? root+"/"+project.name : root+"/"+project.localname
+      path = root+"/"+project.localname
+      
       if FileTest.directory?(path) then 
-        puts "+ diff\n\t- path "+path
+        puts "+ diff -> "+path
         diffProject(path)
+      end
+    end
+  end
+  
+  def revert(container, root)
+  
+    container.projects.each do |project|
+      path = root+"/"+project.localname
+      
+      if FileTest.directory?(path) then 
+        puts "+ revert -> "+path
+        revertProject(path)
       end
     end
   end
   
 private
 
-  def checkoutProject(url, path, revision)
+  def checkoutProject(url, revision, path)
     sh "svn -r #{revision} checkout #{url} #{path}"
   end
   
-  def updateProject(path, revision)
+  def updateProject(revision, path)
     sh "svn -r #{revision} update #{path}"
-  end
-  
-  def revertProject(path)
-    sh "svn -R revert #{path}"
   end
   
   def diffProject(path)
     sh "svn diff #{path}"
+  end
+  
+  def revertProject(path)
+    sh "svn -R revert #{path}"
   end
   
 end
