@@ -32,27 +32,27 @@ end
 class InfoTask < GenericTask
   
   def initialize(set)
-    super("info", "print info on project-set", set, false)
+    super("info", "print info on project-set", set)
   end
 end
 
 class PullTask < GenericTask
   
   def initialize(set)
-    super("pull", "pull project-set or container", set, true)
+    super("pull", "pull project-set", set)
   end
 end
 
 class StatusTask < GenericTask
   
   def initialize(set)
-    super("status", "status of project-set or container", set, true)
+    super("status", "print status of project-set", set)
   end
 end
 
 class RevertTask < GenericTask
   
   def initialize(set)
-    super("revert", "revert project-set or container", set, true)
+    super("revert", "revert project-set", set)
   end
 end
