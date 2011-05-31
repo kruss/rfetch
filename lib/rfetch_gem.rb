@@ -15,8 +15,8 @@ class RFetchGem
 
 		if validOptions() then
 			createOutputFolder()
-			Logger.setLogfile($Options[:output]+"/"+$AppName+".log")
-			Logger.info $AppName+" ("+$AppVersion+")"
+			Logger.setLogfile($Options[:output]+"/"+$APP_NAME+".log")
+			Logger.info $APP_NAME
 			
 			begin
 				runApplication()
@@ -27,7 +27,7 @@ class RFetchGem
 			exit(0)
 		else
 		
-			puts "try "+$AppName+" --help"
+			puts "try "+$APP_NAME+" --help"
 			exit(-1)
 		end
 	end
@@ -39,7 +39,7 @@ private
 		
 		# parse explicit options
 		optparse = OptionParser.new do |opts|
-			opts.banner = $AppName+" options:"
+			opts.banner = $APP_NAME+" options:"
 			
 			$Options[:file] = nil
 			opts.on("-f", "--file FILE", "rps-file name") do |option|
@@ -77,7 +77,7 @@ private
     if 
       $Options[:file] == nil
     then
-      $Options[:file] = $AppName+".rps" # TODO make constant
+      $Options[:file] = $APP_NAME+".rps" # TODO make constant
     end
 
     if 
@@ -87,7 +87,7 @@ private
     else
       $Options[:directory] = Dir.getwd
     end
-		$Options[:output] = $Options[:directory]+"/."+$AppName
+		$Options[:output] = $Options[:directory]+"/."+$APP_NAME
 
     if 
       $Options[:nature] != nil && $Options[:revision] == nil

@@ -10,5 +10,6 @@ container.projects << Project.new("Logger")
 
 set = ProjectSet.new(".")
 set.containers << container
+set.pack()
 
 RFetch2Rake.new(set)

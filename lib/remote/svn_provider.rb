@@ -9,7 +9,7 @@ class SvnProvider
   attr_accessor :url
   attr_accessor :revision
   
-  def info
+  def info()
     return "SVN -> #{@url} (#{revision})"
   end
   
@@ -20,10 +20,10 @@ class SvnProvider
         
         if !FileTest.directory?(path) then 
           url = @url+"/"+project.name
-          puts "+ pull initial -> "+url+" ("+@revision+") -> "+path
+          puts $PROMPT+" checkout -> "+url+" ("+@revision+") -> "+path
           checkoutProject(url, @revision, path)
         else
-          puts "+ pull update -> "+path+" ("+@revision+")"
+          puts $PROMPT+" update -> "+path+" ("+@revision+")"
           updateProject(@revision, path) 
         end
       end
@@ -35,7 +35,7 @@ class SvnProvider
       path = root+"/"+project.localname
       
       if FileTest.directory?(path) then 
-        puts "+ diff -> "+path
+        puts $PROMPT+" diff -> "+path
         diffProject(path)
       end
     end
@@ -47,7 +47,7 @@ class SvnProvider
       path = root+"/"+project.localname
       
       if FileTest.directory?(path) then 
-        puts "+ revert -> "+path
+        puts $PROMPT+" revert -> "+path
         revertProject(path)
       end
     end

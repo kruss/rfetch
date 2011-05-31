@@ -21,13 +21,9 @@ private
   def runTask()
     
     @set.containers.each do |container|
-      puts "+ #{container.provider.info}"
+      puts "#{container.info}"
       container.projects.each do |project|
-        if project.name.eql?(project.localname) then
-          puts "|- #{project.name}"
-        else
-          puts "|- #{project.name} -> #{project.localname}"
-        end
+        puts " |- #{project.info}"
       end
     end
   end

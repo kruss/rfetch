@@ -8,16 +8,29 @@ class ProjectSet
   attr_accessor :root
   attr_accessor :containers
   
+  def pack()
+    index = 1
+    containers.each do |container|
+      container.index = index
+      index = index + 1
+    end
+  end
 end
 
 class Container
   
   def initialize(provider)
+    @index = nil
     @provider = provider
     @projects = Array.new
   end
+  attr_accessor :index
   attr_accessor :provider
   attr_accessor :projects
+  
+  def info()
+    return "[#{@index.to_s}] #{provider.info}"  
+  end
   
   def pull(root)
     provider.pull(self, root)
@@ -42,4 +55,11 @@ class Project
   attr_accessor :name
   attr_accessor :localname
 
+  def info()
+    if @name.eql?(@localname) then
+      return "#{@name}"  
+    else
+      return "#{@name} -> #{@localname}"  
+    end
+  end
 end

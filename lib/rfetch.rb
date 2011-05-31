@@ -14,5 +14,6 @@ require "remote/providers"
 require "remote/svn_provider"
 require "rfetch_rake"
 
-$AppName = "rfetch"
-$AppVersion = "0.1.0"
+$APP_NAME = "rfetch"
+$APP_VERSION = "0.1.0"
+$PROMPT = "$:"

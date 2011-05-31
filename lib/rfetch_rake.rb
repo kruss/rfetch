@@ -5,7 +5,6 @@ require "rfetch"
 class RFetch2Rake
   
   def initialize(set)
-    
     @set = set
     @tasks = Array.new
     

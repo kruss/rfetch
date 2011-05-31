@@ -17,5 +17,6 @@ container2.projects << Project.new("FooLib2")
 set = ProjectSet.new(".")
 set.containers << container1
 set.containers << container2
+set.pack()
 
 RFetch2Rake.new(set)
