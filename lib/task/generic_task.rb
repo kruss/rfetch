@@ -22,12 +22,7 @@ private
   def runTask()
     
     @set.containers.each do |container|
-      runTaskFor(container)
+      container.method(@name).call()
     end
   end
-  
-  def runTaskFor(container)
-     container.method(@name).call()
-  end
-
 end

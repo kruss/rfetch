@@ -11,17 +11,6 @@ class ProjectSet
     return Pathname.new(Dir.getwd+"/"+@root).cleanpath.to_s
   end
   
-  def getIndex(container)
-    index = 0
-    containers.each do |entry|
-      if entry.equal?(container) then
-        return index
-      end
-      index = index + 1
-    end
-    return -1
-  end
-  
   def pack()
     containers.each do |container|
       container.set = self
@@ -39,10 +28,6 @@ class Container
   attr_accessor :set
   attr_accessor :provider
   attr_accessor :projects
-  
-  def getIndex()
-    return set.getIndex(self)
-  end
   
   def info()
     puts "#{provider.info}" 
