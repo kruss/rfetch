@@ -5,14 +5,26 @@ class ProjectSet
     @root = root
     @containers = Array.new
   end
-  attr_accessor :root
   attr_accessor :containers
   
-  def pack()
-    index = 1
-    containers.each do |container|
-      container.index = index
+  def getRoot()
+    return Pathname.new(Dir.getwd+"/"+@root).cleanpath.to_s
+  end
+  
+  def getIndex(container)
+    index = 0
+    containers.each do |entry|
+      if entry.equal?(container) then
+        return index
+      end
       index = index + 1
+    end
+    return -1
+  end
+  
+  def pack()
+    containers.each do |container|
+      container.set = self
     end
   end
 end
@@ -20,28 +32,35 @@ end
 class Container
   
   def initialize(provider)
-    @index = nil
+    @set = nil
     @provider = provider
     @projects = Array.new
   end
-  attr_accessor :index
+  attr_accessor :set
   attr_accessor :provider
   attr_accessor :projects
   
+  def getIndex()
+    return set.getIndex(self)
+  end
+  
   def info()
-    return "[#{@index.to_s}] #{provider.info}"  
+    puts "#{provider.info}" 
+    projects.each do |project|
+        puts " |- #{project.info}"
+    end
   end
   
-  def pull(root)
-    provider.pull(self, root)
+  def pull()
+    provider.pull(self, @set.getRoot())
   end
   
-  def diff(root)
-    provider.diff(self, root)
+  def status()
+    provider.status(self, @set.getRoot())
   end
   
-  def revert(root)
-    provider.revert(self, root)
+  def revert()
+    provider.revert(self, @set.getRoot())
   end
   
 end

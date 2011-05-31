@@ -29,7 +29,7 @@ class SvnProvider
       end
   end
   
-  def diff(container, root)
+  def status(container, root)
   
     container.projects.each do |project|
       path = root+"/"+project.localname
@@ -37,6 +37,8 @@ class SvnProvider
       if FileTest.directory?(path) then 
         puts $PROMPT+" diff -> "+path
         diffProject(path)
+      else
+        puts $PROMPT+" not existing -> "+path
       end
     end
   end
@@ -49,6 +51,8 @@ class SvnProvider
       if FileTest.directory?(path) then 
         puts $PROMPT+" revert -> "+path
         revertProject(path)
+      else
+        puts $PROMPT+" not existing -> "+path
       end
     end
   end
