@@ -11,6 +11,7 @@ class RFetch2Rake
     @set = set
     @tasks = Array.new
     
+    @set.pack()
     initTasks()
   end
   attr_accessor :set
