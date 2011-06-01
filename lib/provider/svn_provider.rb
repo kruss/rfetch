@@ -16,22 +16,23 @@ class SvnProvider
   
   def pull(container, root, mode)
     
-      container.projects.each do |project|
-        path = root+"/"+project.localname
+    revision = @revision.eql?(HEAD_REVISION) ? getHeadRevision(@url) : @revision
+    container.projects.each do |project|
+      path = root+"/"+project.localname
+      
+      if !FileTest.directory?(path) then 
+        url = @url+"/"+project.name
+        puts $PROMPT+" checkout -> "+url+" ("+revision+") -> "+path
+        checkoutProject(url, revision, path)
         
-        if !FileTest.directory?(path) then 
-          url = @url+"/"+project.name
-          puts $PROMPT+" checkout -> "+url+" ("+@revision+") -> "+path
-          checkoutProject(url, @revision, path)
-          
-        elsif !mode.eql?(Container::PULL_MODE_KEEP) then
-          puts $PROMPT+" update -> "+path+" ("+@revision+")"
-          updateProject(@revision, path) 
-        
-        else
-          puts $PROMPT+" already existing -> "+path
-        end
+      elsif !mode.eql?(Container::PULL_MODE_KEEP) then
+        puts $PROMPT+" update -> "+path+" ("+revision+")"
+        updateProject(revision, path) 
+      
+      else
+        puts $PROMPT+" already existing -> "+path
       end
+    end
   end
   
   def status(container, root)
@@ -78,6 +79,20 @@ class SvnProvider
   
 private
 
+  def getHeadRevision(url)
+
+    revision = nil
+    out = IO.popen("svn info #{url}")   
+    out.readlines.each do |line|
+      if line.index("Revision:") != nil then
+        line.slice!("Revision:")
+        revision = line.strip
+        puts $PROMPT+" #{url} (#{HEAD_REVISION}) -> (#{revision})"
+      end
+    end
+    return revision
+  end
+  
   def checkoutProject(url, revision, path)
     sh "svn -r #{revision} checkout #{url} #{path}"
   end
