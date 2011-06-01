@@ -17,12 +17,11 @@ class GenericTask
       end
   end
   
-private
+protected
 
   def runTask()
-    
     @set.containers.each do |container|
-      container.method(@name).call()
+      container.provider.method(@name).call(container, @set.getRoot())
     end
   end
 end

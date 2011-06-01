@@ -13,7 +13,7 @@ class SvnProvider
     return "SVN -> #{@url} (#{revision})"
   end
   
-  def pull(container, root)
+  def pull(container, root, mode)
     
       container.projects.each do |project|
         path = root+"/"+project.localname
@@ -22,9 +22,13 @@ class SvnProvider
           url = @url+"/"+project.name
           puts $PROMPT+" checkout -> "+url+" ("+@revision+") -> "+path
           checkoutProject(url, @revision, path)
-        else
+          
+        elsif !mode.eql?(Container::PULL_MODE_KEEP) then
           puts $PROMPT+" update -> "+path+" ("+@revision+")"
           updateProject(@revision, path) 
+        
+        else
+          puts $PROMPT+" already existing -> "+path
         end
       end
   end

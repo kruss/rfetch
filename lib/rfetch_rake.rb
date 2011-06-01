@@ -33,14 +33,33 @@ end
 class InfoTask < GenericTask
   
   def initialize(set)
-    super("info", "print info on project-set", set)
+    super("info", nil, set)
+  end
+  
+  def runTask()
+    @set.containers.each do |container|
+      puts "#{container.provider.info}" 
+      container.projects.each do |project|
+          puts " |- #{project.info}"
+      end
+    end
   end
 end
 
 class PullTask < GenericTask
   
   def initialize(set)
-    super("pull", "pull project-set", set)
+    super("pull", "pull project-set (mode=[full]|keep)", set)
+  end
+  
+  def runTask()
+    @set.containers.each do |container|
+      mode = Container::PULL_MODE_FULL
+      if ENV["mode"] != nil then
+        mode = ENV["mode"]
+      end
+      container.provider.pull(container, @set.getRoot(), mode)
+    end
   end
 end
 

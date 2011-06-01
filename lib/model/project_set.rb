@@ -19,6 +19,8 @@ class ProjectSet
 end
 
 class Container
+  PULL_MODE_FULL = "full"
+  PULL_MODE_KEEP = "keep"
   
   def initialize(provider)
     @set = nil
@@ -28,29 +30,6 @@ class Container
   attr_accessor :set
   attr_accessor :provider
   attr_accessor :projects
-  
-  def info()
-    puts "#{provider.info}" 
-    projects.each do |project|
-        puts " |- #{project.info}"
-    end
-  end
-  
-  def pull()
-    provider.pull(self, @set.getRoot())
-  end
-  
-  def status()
-    provider.status(self, @set.getRoot())
-  end
-  
-  def revert()
-    provider.revert(self, @set.getRoot())
-  end
-  
-  def drop()
-    provider.drop(self, @set.getRoot())
-  end
   
 end
 
