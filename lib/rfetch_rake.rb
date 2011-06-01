@@ -57,6 +57,9 @@ class PullTask < GenericTask
   
   def runTask()
     @set.containers.each do |container|
+      container.provider.adjust()
+    end
+    @set.containers.each do |container|
       mode = Container::PULL_MODE_FULL
       if ENV["mode"] != nil then
         mode = ENV["mode"]

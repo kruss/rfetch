@@ -14,20 +14,25 @@ class SvnProvider
     return PROVIDER_NAME+" -> #{@url} (#{revision})"
   end
   
+  def adjust()
+    if @revision.eql?(HEAD_REVISION) then
+      @revision = getHeadRevision(@url)
+    end
+  end
+  
   def pull(container, root, mode)
     
-    revision = @revision.eql?(HEAD_REVISION) ? getHeadRevision(@url) : @revision
     container.projects.each do |project|
       path = root+"/"+project.localname
       
       if !FileTest.directory?(path) then 
         url = @url+"/"+project.name
-        puts $PROMPT+" checkout -> "+url+" ("+revision+") -> "+path
-        checkoutProject(url, revision, path)
+        puts $PROMPT+" checkout -> "+url+" ("+@revision+") -> "+path
+        checkoutProject(url, @revision, path)
         
       elsif !mode.eql?(Container::PULL_MODE_KEEP) then
-        puts $PROMPT+" update -> "+path+" ("+revision+")"
-        updateProject(revision, path) 
+        puts $PROMPT+" update -> "+path+" ("+@revision+")"
+        updateProject(@revision, path) 
       
       else
         puts $PROMPT+" already existing -> "+path
