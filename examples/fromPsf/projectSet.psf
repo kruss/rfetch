@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<psf version="2.0">
+<provider id="org.eclipse.team.svn.core.svnnature">
+<project reference="1.0.1,svn://10.40.38.84:3690/cppdemo/trunk/Dummy,Dummy,707311c94308001012d0ecc66e85647a;svn://10.40.38.84:3690/cppdemo;svn://10.40.38.84:3690/cppdemo;branches;tags;trunk;true;0fcde1b6-b28e-6845-9283-8db7a2e7b6eb;svn://10.40.38.84:3690/cppdemo;;false;;;22"/>
+<project reference="1.0.1,svn://10.40.38.84:3690/cppdemo/branches/test1/FooLib,FooLib1,707311c94308001012d0ecc66e85647a;svn://10.40.38.84:3690/cppdemo;svn://10.40.38.84:3690/cppdemo;branches;tags;trunk;true;0fcde1b6-b28e-6845-9283-8db7a2e7b6eb;svn://10.40.38.84:3690/cppdemo;;false;;;22"/>
+<project reference="1.0.1,svn://10.40.38.84:3690/cppdemo/branches/test1/FooLib2,FooLib2,707311c94308001012d0ecc66e85647a;svn://10.40.38.84:3690/cppdemo;svn://10.40.38.84:3690/cppdemo;branches;tags;trunk;true;0fcde1b6-b28e-6845-9283-8db7a2e7b6eb;svn://10.40.38.84:3690/cppdemo;;false;;;22"/>
+<project reference="1.0.1,svn://10.40.38.84:3690/cppdemo/trunk/Logger,Logger,707311c94308001012d0ecc66e85647a;svn://10.40.38.84:3690/cppdemo;svn://10.40.38.84:3690/cppdemo;branches;tags;trunk;true;0fcde1b6-b28e-6845-9283-8db7a2e7b6eb;svn://10.40.38.84:3690/cppdemo;;false;;;22"/>
+</provider>
+</psf>

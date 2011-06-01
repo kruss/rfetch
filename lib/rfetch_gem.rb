@@ -1,42 +1,41 @@
 # actions provided by the gem here
 
 require "rfetch"
+require "command/convert_command"
 
 class RFetchGem
 
 	def initialize()
     @commands = Array.new
+    @commands << ConvertCommand.new()
 	end
 	
-	# run unit-tests
 	def run()
     command = getCommand(ARGV[0])  
-    command.run()
+    if command != nil then
+      command.init()
+      command.run()
+    else
+      help()
+    end
 	end
 	
 private
   
   def getCommand(name)
-    
-    case name
-      when ConvertCommand::COMMAND_NAME
-        return ConvertCommand.new()
-      else
-        return HelpCommand.new()
+    @commands.each do |command|
+      if command.name.eql?(name) then
+        return command
+      end
     end
+    return nil
   end
 
-end
-
-class HelpCommand
-  def run()
-    puts "Help..."
-  end
-end
-
-class ConvertCommand
-  COMMAND_NAME = "convert"
-  def run()
-    puts "Convert..."
+  def help()
+    puts "Usage: #{$APP_NAME} <command> [options ...]"
+    @commands.each do |command|
+      command.init()
+      command.help()
+    end
   end
 end
