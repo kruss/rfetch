@@ -1,5 +1,6 @@
 
 class SvnProvider
+  PROVIDER_NAME = "SVN"
   HEAD_REVISION = "HEAD"
   
   def initialize(url, revision)
@@ -10,7 +11,7 @@ class SvnProvider
   attr_accessor :revision
   
   def info()
-    return "SVN -> #{@url} (#{revision})"
+    return PROVIDER_NAME+" -> #{@url} (#{revision})"
   end
   
   def pull(container, root, mode)

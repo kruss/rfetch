@@ -1,4 +1,3 @@
-
 require "rfetch"
 
 class GenericTask

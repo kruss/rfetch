@@ -1,6 +1,8 @@
 # actions provided by rake-extention here
 
 require "rfetch"
+require "model/project_set"
+require "provider/svn_provider"
 require "task/generic_task.rb"
 
 class RFetch2Rake
