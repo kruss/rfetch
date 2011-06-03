@@ -12,8 +12,11 @@ class ConvertCommand < GenericCommand
     @parse.on("-f", "--file FILE", "convert the psf-file FILE") do |file|
       @options[:PsfFile] = file
     end
-    @parse.on("-o", "--output FILE", "output the rake-file FILE (optional)") do |file|
+    @parse.on("-o", "--output FILE", "output to rake-file FILE (optional)") do |file|
       @options[:RakeFile] = file
+    end
+    @parse.on("-r", "--root PATH", "path of the rake-root (optional)") do |root|
+      @options[:RakeRoot] = root
     end
    
   end
@@ -34,9 +37,13 @@ class ConvertCommand < GenericCommand
     if rakeFile == nil then
       rakeFile = psfFile.chomp(".psf")+".rb"
     end
+    rakeRoot = @options[:RakeRoot]
+    if rakeRoot == nil then
+      rakeRoot = "."
+    end
     
     puts $PROMPT+" #{@name}: #{psfFile} -> #{rakeFile}"
-    converter = Psf2RakeConverter.new(psfFile, rakeFile)
+    converter = Psf2RakeConverter.new(psfFile, rakeFile, rakeRoot)
     converter.convert()
      
   end
@@ -44,9 +51,10 @@ end
 
 class Psf2RakeConverter
   
-  def initialize(psfFile, rakeFile)
+  def initialize(psfFile, rakeFile, rakeRoot)
     @psfFile = psfFile 
     @rakeFile = rakeFile
+    @rakeRoot = rakeRoot
     @driver = nil
   end
   
@@ -93,7 +101,7 @@ private
       end
     end
     #...
-    rake << "\nset = ProjectSet.new(\".\")\n"
+    rake << "\nset = ProjectSet.new(\"#{@rakeRoot}\")\n"
     for i in 0..@driver.containers.size()-1 do
       rake << "\tset.containers << container_#{i}\n"
     end
