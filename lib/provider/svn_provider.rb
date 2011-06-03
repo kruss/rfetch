@@ -17,6 +17,7 @@ class SvnProvider
   def adjust()
     if @revision.eql?(HEAD_REVISION) then
       @revision = getHeadRevision(@url)
+      puts $PROMPT+" adjust: #{url} (#{HEAD_REVISION}) -> (#{revision})"
     end
   end
   
@@ -27,15 +28,15 @@ class SvnProvider
       
       if !FileTest.directory?(path) then 
         url = @url+"/"+project.name
-        puts $PROMPT+" checkout -> "+url+" ("+@revision+") -> "+path
+        puts $PROMPT+" checkout: "+url+" ("+@revision+") -> "+path
         checkoutProject(url, @revision, path)
         
       elsif !mode.eql?(Container::PULL_MODE_KEEP) then
-        puts $PROMPT+" update -> "+path+" ("+@revision+")"
+        puts $PROMPT+" update: "+path+" ("+@revision+")"
         updateProject(@revision, path) 
       
       else
-        puts $PROMPT+" already existing -> "+path
+        puts $PROMPT+" already existing: "+path
       end
     end
   end
@@ -46,10 +47,10 @@ class SvnProvider
       path = root+"/"+project.localname
       
       if FileTest.directory?(path) then 
-        puts $PROMPT+" diff -> "+path
+        puts $PROMPT+" diff: "+path
         diffProject(path)
       else
-        puts $PROMPT+" not existing -> "+path
+        puts $PROMPT+" not existing: "+path
       end
     end
   end
@@ -60,10 +61,10 @@ class SvnProvider
       path = root+"/"+project.localname
       
       if FileTest.directory?(path) then 
-        puts $PROMPT+" revert -> "+path
+        puts $PROMPT+" revert: "+path
         revertProject(path)
       else
-        puts $PROMPT+" not existing -> "+path
+        puts $PROMPT+" not existing: "+path
       end
     end
   end
@@ -74,10 +75,10 @@ class SvnProvider
       path = root+"/"+project.localname
       
       if FileTest.directory?(path) then 
-        puts $PROMPT+" delete -> "+path
+        puts $PROMPT+" delete: "+path
         deleteProject(path)
       else
-        puts $PROMPT+" not existing -> "+path
+        puts $PROMPT+" not existing: "+path
       end
     end
   end
@@ -92,7 +93,6 @@ private
       if line.index("Revision:") != nil then
         line.slice!("Revision:")
         revision = line.strip
-        puts $PROMPT+" #{url} (#{HEAD_REVISION}) -> (#{revision})"
       end
     end
     return revision
