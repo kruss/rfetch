@@ -15,6 +15,7 @@ class SvnProvider
   end
   
   def adjust()
+    
     if @revision.eql?(HEAD_REVISION) then
       @revision = getHeadRevision(@url)
       puts $PROMPT+" adjust: #{url} (#{HEAD_REVISION}) -> (#{revision})"
