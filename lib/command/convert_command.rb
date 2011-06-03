@@ -9,14 +9,14 @@ class ConvertCommand < GenericCommand
   
   def initOptions()
   
-    @parse.on("-f", "--file FILE", "convert the psf-file FILE") do |file|
-      @options[:PsfFile] = file
+    @parse.on("-f", "--file FILE", "convert the psf-file FILE") do |param|
+      @options[:PsfFile] = param
     end
-    @parse.on("-o", "--output FILE", "output to rake-file FILE (optional)") do |file|
-      @options[:RakeFile] = file
+    @parse.on("-o", "--output FILE", "output to rake-file FILE (optional)") do |param|
+      @options[:RakeFile] = param
     end
-    @parse.on("-r", "--root PATH", "path of the rake-root (optional)") do |root|
-      @options[:RakeRoot] = root
+    @parse.on("-r", "--root PATH", "path of the rake-root (optional)") do |param|
+      @options[:RakeRoot] = param
     end
    
   end
@@ -25,9 +25,9 @@ class ConvertCommand < GenericCommand
     
     if @options[:PsfFile] != nil then
       return true
+    else
+      return false
     end
-    return false
-    
   end
   
   def runCommand()

@@ -12,4 +12,5 @@ sh "rake pull"
 
 puts "\n### PERFORM DROP ###\n"
 sh "rake drop"
+
 FileUtils.rm("rakefile.rb")
