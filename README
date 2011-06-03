@@ -1,20 +1,28 @@
-rfetch is a ruby gem to manage remote-project-sets (rps) for different repositories
+rfetch is a ruby gem to manage project-sets for different repositories
 
-usage: rfetch [-f <rps-file>|{rfetch.rps}|-f <remote-rps-file> -n <rps-nature> -r <revision>] [-d <directory>|{.}] <command>
+you can create a project-set within rake-files, eg:
 
-were command is
+	require 'rfetch'
+	container = Container.new(
+	  SvnProvider.new("svn-url...", 	# SVN is already supported ;-)
+	  SvnProvider::HEAD_REVISION 		# specify any revision or 'HEAD'
+	 ) 
+	)
+	project foo = Project.new("Bar")
+	foo.localname = "foo"				# specify a local name
+	container.projects << foo
+	root = "." 							# relative path to project's root
+	set = ProjectSet.new(root) 
+	set.containers << container
+	RFetch2Rake.new(set)
+	
+you can easily pull the project-set with: 
 
--pull					pull remote to local
--push <message>			push local to remote
--revert					revert local
--tag <url>				tag local to url
+	rake pull
 
-were rps is a file of format:
+you also can convert an eclipse psf with: 
 
-<rps nature="rps-nature(SVN|GIT|...)">
-	<container uri="container-uri">
-		<entry name="entry-name" [loc="local-name"|{name}] [rev="revision"|{HEAD}] />
-		...
-	</container>
-	...
-</rps>
+	rfetch psf2rake -f <psf-file>
+	
+	
+more to come...
