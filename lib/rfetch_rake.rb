@@ -3,6 +3,7 @@
 require "rfetch"
 require "model/project_set"
 require "provider/svn_provider"
+require "provider/cvs_provider"
 require "task/generic_task.rb"
 
 class RFetch2Rake
