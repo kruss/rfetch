@@ -12,12 +12,12 @@ class CvsPsfConverter
     
     splitLine = line.split(",")
     url = splitLine[1]
-    component = splitLine[2]
+    name = splitLine[2]
     localname = splitLine[3].split("\"")[0]
     
-    puts $PROMPT+" convert: #{url}/#{component}|#{localname}"
+    puts $PROMPT+" convert: #{url}/#{name}|#{localname}"
     container = getContainer(url)
-    container.projects << ProjectWrapper.new(component, localname)
+    container.projects << ProjectWrapper.new(name, localname)
   end
   
   def getContainer(url)
