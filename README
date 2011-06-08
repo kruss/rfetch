@@ -1,26 +1,26 @@
 rfetch is a ruby gem to manage project-sets for different repositories
 
-you can create a project-set within rake-files, eg:
+create a project-set as rake-file:
 
 	require 'rfetch'
 	container = Container.new(
-	  SvnProvider.new("svn-url...", 	# SVN is already supported ;-)
-	  SvnProvider::HEAD_REVISION 		# specify any revision or 'HEAD'
+	  SvnProvider.new("svn-url...",
+	  SvnProvider::HEAD_REVISION 
 	 ) 
 	)
 	project foo = Project.new("Bar")
-	foo.localname = "foo"				# specify a local name
+	foo.localname = "foo"
 	container.projects << foo
-	root = "." 							# relative path to project's root
+	root = "."
 	set = ProjectSet.new(root) 
 	set.containers << container
 	RFetch2Rake.new(set)
 	
-you can easily pull the project-set with: 
+pull the project-set: 
 
 	rake pull
 
-you also can convert an eclipse psf with: 
+convert eclipse psf-file to rake-file: 
 
 	rfetch psf2rake -f <psf-file>
 	
