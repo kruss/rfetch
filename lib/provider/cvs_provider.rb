@@ -14,32 +14,32 @@ class CvsProvider < GenericProvider
   def pull(update)
     
     root = @container.set.getRoot()
-    cd root do
-      @container.projects.each do |project|
-        
-        if !FileTest.directory?(root+"/"+project.localname) then 
-          puts $PROMPT+" checkout: "+@url+"/"+project.name+" ("+@revision+") -> "+project.localname
-          checkoutProject(@url, @revision, project.name, project.localname)
-          
-        elsif update then
-          puts $PROMPT+" update: "+project.localname+" ("+@revision+")"
-          updateProject(@url, @revision, project.localname)
-     
-        else
-          puts $PROMPT+" skip: "+path
-        end
+    @container.projects.each do |project|
+      path = root+"/"+project.localname
+      if !FileTest.directory?(path) then 
+        puts $PROMPT+" checkout: "+@url+"/"+project.name+" ("+@revision+") -> "+project.localname
+        checkoutProject(root, @url, @revision, project.name, project.localname)       
+      elsif update then
+        puts $PROMPT+" update: "+path+" ("+@revision+")"
+        updateProject(root, @url, @revision, project.localname)  
+      else
+        puts $PROMPT+" skip: "+path
       end
     end
   end
   
 private
   
-  def checkoutProject(url, revision, name, localname)
-    sh "cvs -d #{url} checkout -r #{revision} -d #{localname} #{name}"
+  def checkoutProject(root, url, revision, name, localname)
+    cd root do
+      sh "cvs -d #{url} checkout -r #{revision} -d #{localname} #{name}"
+    end
   end
   
-  def updateProject(url, revision, localname)
-    sh "cvs -d #{url} update -r #{revision} -d #{localname}"
+  def updateProject(root, url, revision, localname)
+    cd root do
+      sh "cvs -d #{url} update -r #{revision} -d #{localname}"
+    end
   end
   
 end

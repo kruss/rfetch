@@ -18,18 +18,16 @@ class SvnProvider < GenericProvider
   
   def pull(update)
     
+    root = @container.set.getRoot()
     @container.projects.each do |project|
-      path = @container.set.getRoot()+"/"+project.localname
-      
+      path = root+"/"+project.localname
       if !FileTest.directory?(path) then 
         url = @url+"/"+project.name
         puts $PROMPT+" checkout: "+url+" ("+@revision+") -> "+path
         checkoutProject(url, @revision, path)
-        
       elsif update then
         puts $PROMPT+" update: "+path+" ("+@revision+")"
         updateProject(@revision, path) 
-      
       else
         puts $PROMPT+" skip: "+path
       end
