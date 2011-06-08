@@ -1,7 +1,7 @@
 require "rake"
 sh "cls"
 
-puts "\n### INFO ###\n"
+puts "\n### INFO (RAKE) ###\n"
 sh "rake"
 sh "rake -T"
 

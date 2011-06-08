@@ -1,5 +1,5 @@
 
-class CvsProvider
+class CvsProvider < GenericProvider
   PROVIDER_NAME = "CVS"
   HEAD_REVISION = "HEAD"
   

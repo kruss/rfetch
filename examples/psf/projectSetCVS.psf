@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<psf version="2.0">
+<provider id="org.eclipse.team.cvs.core.cvsnature">
+<project reference="1.0,cvs.test1:443/data/var/lib/cvs,test/main,main"/>
+<project reference="1.0,cvs.test2:443/data/var/lib/cvs,test/foo1,bar1"/>
+<project reference="1.0,cvs.test2:443/data/var/lib/cvs,test/foo2,bar2"/>
+</provider>
+</psf>
