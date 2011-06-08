@@ -1,6 +1,13 @@
 # global require and constants here
 
 require "rake"
+begin
+  $RAKE_DSL = true
+  require "rake/dsl_definition"
+rescue LoadError => e
+  $RAKE_DSL = false
+end
+
 require "pathname"
 require "optparse"
 

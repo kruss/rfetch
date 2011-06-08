@@ -8,6 +8,10 @@ require "task/generic_task.rb"
 
 class RFetch2Rake
   
+  if $RAKE_DSL then 
+    include Rake::DSL
+  end
+  
   def initialize(set)
     @set = set
     @tasks = Array.new
