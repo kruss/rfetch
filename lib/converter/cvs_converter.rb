@@ -15,7 +15,7 @@ class CvsPsfConverter
     component = splitLine[2]
     localname = splitLine[3].split("\"")[0]
     
-    puts $PROMPT+" converting: #{url}/#{component}|#{localname}"
+    puts $PROMPT+" convert: #{url}/#{component}|#{localname}"
     container = getContainer(url)
     container.projects << ProjectWrapper.new(component, localname)
   end

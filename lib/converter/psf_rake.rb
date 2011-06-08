@@ -3,19 +3,19 @@ require "converter/cvs_converter"
 
 class Psf2RakeConverter
   
-  def initialize(psfFile, rakeFile, rakeRoot, urlAdjusts)
+  def initialize(psfFile, rakeFile, rootDir, urlMappings)
     @psfFile = psfFile 
     @rakeFile = rakeFile
-    @rakeRoot = rakeRoot
-    @urlAdjusts = urlAdjusts
+    @rootDir = rootDir
+    @urlMappings = urlMappings
     @converter = nil
   end
   
   def convert()
     
     parsePsf(IO.readlines(@psfFile))
-    if @urlAdjusts != nil then
-      adjustUrls()
+    if @urlMappings != nil then
+      applyUrlMapping()
     end
     rake = createRake()
     write(@rakeFile, rake)
@@ -46,10 +46,10 @@ private
     end
   end
 
-  def adjustUrls()
+  def applyUrlMapping()
     
-    @urlAdjusts.each do |urlAdjust|
-      urls = urlAdjust.split("=")
+    @urlMappings.each do |urlMapping|
+      urls = urlMapping.split("=")
       @converter.containers.each do |container|
         if container.url.eql?(urls[0]) then
           puts $PROMPT+" adjust: #{urls[0]} -> #{urls[1]}"
@@ -73,7 +73,7 @@ private
       end
     end
     #...
-    rake << "\nset = ProjectSet.new(\"#{@rakeRoot}\")\n"
+    rake << "\nset = ProjectSet.new(\"#{@rootDir}\")\n"
     for i in 0..@converter.containers.size()-1 do
       rake << "\tset.containers << container_#{i}\n"
     end

@@ -1,28 +1,19 @@
 require "rake"
-
 sh "cls"
-puts "\n### SHOW INFO & TASKS ###\n"
+
+puts "\n### INFO ###\n"
 sh "rake"
 sh "rake -T"
 
-puts "\n### PERFORM CHEKOUT ###\n"
+puts "\n### PULL (CHECKOUT) ###\n"
 sh "rake pull"
 
-puts "\n### PERFORM UPDATE ###\n"
+puts "\n### PULL (UPDATE) ###\n"
 sh "rake pull"
 
-puts "\n### PERFORM CHEKOUT / NO-UPDATE ###\n"
+puts "\n### PULL (NOUPDATE) ###\n"
 FileUtils.rm_rf("Dummy")
-sh "rake pull mode=keep"
+sh "rake pull-noupdate"
 
-puts "\n### SHOW STATUS ###\n"
-file = File.new("Dummy/.project", "a")
-file.syswrite("rfetch")
-file.close
-sh "rake status"
-
-puts "\n### PERFORM REVERT ###\n"
-sh "rake revert"
-
-puts "\n### PERFORM DROP ###\n"
-sh "rake drop"
+puts "\n### CLEAN ###\n"
+sh "rake clean"

@@ -23,8 +23,6 @@ class GenericTask
 protected
 
   def runTask()
-    @set.containers.each do |container|
-      container.provider.method(@name).call(container, @set.getRoot())
-    end
+    raise NotImplementedError.new()
   end
 end

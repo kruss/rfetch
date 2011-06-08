@@ -14,13 +14,12 @@ class ProjectSet
   def pack()
     containers.each do |container|
       container.set = self
+      container.provider.container = container
     end
   end
 end
 
 class Container
-  PULL_MODE_FULL = "full"
-  PULL_MODE_KEEP = "keep"
   
   def initialize(provider)
     @set = nil
@@ -31,6 +30,9 @@ class Container
   attr_accessor :provider
   attr_accessor :projects
   
+  def info()
+    return @provider.getName()+" -> #{@provider.url} (#{@provider.revision})"
+  end
 end
 
 class Project

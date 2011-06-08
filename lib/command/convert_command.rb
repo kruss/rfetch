@@ -1,4 +1,3 @@
-
 require "command/generic_command"
 require "converter/psf_rake"
 
@@ -17,11 +16,11 @@ class ConvertCommand < GenericCommand
     @parse.on("-o", "--output FILE", "output to rake-file FILE (optional)") do |param|
       @options[:RakeFile] = param
     end
-    @parse.on("-r", "--root PATH", "path of the rake-root (optional)") do |param|
-      @options[:RakeRoot] = param
+    @parse.on("-d", "--directory PATH", "path to the root-directory (optional)") do |param|
+      @options[:RootDir] = param
     end
-    @parse.on("-u", "--url LIST", "list of url=url,... adjustments (optional)") do |param|
-      @options[:UrlAdjusts] = param
+    @parse.on("-u", "--url LIST", "list of url=url,... mappings (optional)") do |param|
+      @options[:UrlMapping] = param
     end
    
   end
@@ -42,18 +41,19 @@ class ConvertCommand < GenericCommand
     if rakeFile == nil then
       rakeFile = psfFile.chomp(".psf")+".rb"
     end
-    rakeRoot = @options[:RakeRoot]
-    if rakeRoot == nil then
-      rakeRoot = "."
+    rootDir = @options[:RootDir]
+    if rootDir == nil then
+      rootDir = "."
     end
-    urlAdjusts = nil
-    if @options[:UrlAdjusts] != nil
-      urlAdjusts = @options[:UrlAdjusts].split(",")
+    urlMappings = nil
+    if @options[:UrlMapping] != nil
+      urlMappings = @options[:UrlMapping].split(",")
     end
     
     puts $PROMPT+" #{@name}: #{psfFile} -> #{rakeFile}"
-    converter = Psf2RakeConverter.new(psfFile, rakeFile, rakeRoot, urlAdjusts)
+    converter = Psf2RakeConverter.new(psfFile, rakeFile, rootDir, urlMappings)
     converter.convert()
      
-  end
+ end
+ 
 end

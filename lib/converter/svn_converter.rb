@@ -17,7 +17,7 @@ class SvnPsfConverter
     name = splitUrl[splitUrl.size()-1]
     url = projectUrl.chomp("/"+name)
     
-    puts $PROMPT+" converting: #{url}/#{name}|#{localname}"
+    puts $PROMPT+" convert: #{url}/#{name}|#{localname}"
     container = getContainer(url)
     container.projects << ProjectWrapper.new(name, localname)
   end

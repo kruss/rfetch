@@ -1,4 +1,4 @@
-# global require and constants here
+# external requires and constants here
 
 require "rake"
 begin

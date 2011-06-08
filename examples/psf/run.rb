@@ -1,16 +1,15 @@
 require "rake"
-
 sh "cls"
-puts "\n### SHOW HELP ###\n"
+
+puts "\n### INFO ###\n"
 sh "rfetch"
 
-puts "\n### CONVERT PSF ###\n"
+puts "\n### CONVERT ###\n"
 sh "rfetch psf2rake -f projectSet.psf -o rakefile.rb"
 
-puts "\n### PERFORM CHEKOUT ###\n"
+puts "\n### PULL (CHECKOUT) ###\n"
 sh "rake pull"
 
-puts "\n### PERFORM DROP ###\n"
-sh "rake drop"
-
+puts "\n### CLEAN ###\n"
+sh "rake clean"
 FileUtils.rm("rakefile.rb")

@@ -22,13 +22,6 @@ class GenericCommand
    
   end
   
-  def initOptions  
-  end
-  
-  def validOptions
-    return true
-  end
-  
   def run()
     
     if validOptions()
@@ -41,4 +34,18 @@ class GenericCommand
   def help()
     puts @parse
   end
+  
+protected
+
+  def initOptions  
+  end
+  
+  def validOptions
+    return true
+  end
+  
+  def runCommand()
+    raise NotImplementedError.new()
+  end
+  
 end
