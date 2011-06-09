@@ -10,9 +10,9 @@ class InfoTask < GenericTask
     
     puts "#{$APP_NAME} -> #{@set.getRoot()}"
     @set.containers.each do |container|
-      puts "|- #{container.info}" 
+      puts " |- #{container.info}" 
       container.projects.each do |project|
-          puts "|  |- #{project.info}"
+          puts " |   |- #{project.info}"
       end
     end
   end

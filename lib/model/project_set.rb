@@ -22,13 +22,13 @@ end
 class Container
   
   def initialize(provider)
-    @set = nil
     @provider = provider
     @projects = Array.new
+    @set = nil
   end
-  attr_accessor :set
   attr_accessor :provider
   attr_accessor :projects
+  attr_accessor :set
   
   def info()
     return @provider.getName()+" -> #{@provider.url} (#{@provider.revision})"

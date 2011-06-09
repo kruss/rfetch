@@ -18,6 +18,10 @@ class CleanTask < GenericTask
         end
       end
     end
+    
+    if FileTest.directory?(@output.folder) then
+      FileUtils.rm_rf(@output.folder)
+    end
   end
   
 end

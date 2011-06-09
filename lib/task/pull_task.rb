@@ -7,13 +7,19 @@ class PullTask < GenericTask
   end
   
   def runTask()
-    
-    @set.containers.each do |container|
-      container.provider.adjust()
-    end
-    
-    @set.containers.each do |container|
-      container.provider.pull(true)
+    begin
+      @output.open()
+      
+      @set.containers.each do |container|
+        container.provider.output = @output
+        container.provider.adjust()
+      end
+      @set.containers.each do |container|
+        container.provider.pull(true)
+      end
+      
+    ensure
+      @output.close()
     end
   end
   

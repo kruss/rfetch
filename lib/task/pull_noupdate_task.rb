@@ -7,13 +7,19 @@ class PullNoUpdateTask < GenericTask
   end
   
   def runTask()
-    
-    @set.containers.each do |container|
-      container.provider.adjust()
-    end
-    
-    @set.containers.each do |container|
-      container.provider.pull(false)
+    begin
+      @output.open()
+      
+      @set.containers.each do |container|
+        container.provider.output = @output
+        container.provider.adjust()
+      end
+      @set.containers.each do |container|
+        container.provider.pull(false)
+      end
+      
+    ensure
+      @output.close()
     end
   end
   

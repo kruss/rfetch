@@ -10,6 +10,7 @@ end
 
 require "pathname"
 require "optparse"
+require "feedback"
 
 require "rfetch_rake"
 require "rfetch_gem"

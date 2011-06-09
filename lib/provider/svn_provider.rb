@@ -12,26 +12,41 @@ class SvnProvider < GenericProvider
     
     if @revision.eql?(HEAD_REVISION) then
       @revision = getHeadRevision(@url)
-      puts $PROMPT+" adjust: #{url} (#{HEAD_REVISION}) -> (#{@revision})"
+      puts $PROMPT+" adjust: #{@url} (#{HEAD_REVISION}) -> (#{@revision})"
     end
   end
   
-  def pull(update)
-    
+  def pull(force)
+    @result = Feedback::Result.new(@url)
+    @result.values["provider"] = PROVIDER_NAME
+    @result.values["revision"] = @revision
+    @output.feedback.results << @result
     root = @container.set.getRoot()
+    
     @container.projects.each do |project|
+      result = Feedback::Result.new(project.localname)
+      @result.results << result
       path = root+"/"+project.localname
+      
       if !FileTest.directory?(path) then 
+        result.values["action"] = "checkout"
         url = @url+"/"+project.name
-        puts $PROMPT+" checkout: "+url+" ("+@revision+") -> "+path
-        checkoutProject(url, @revision, path)
-      elsif update then
-        puts $PROMPT+" update: "+path+" ("+@revision+")"
-        updateProject(@revision, path) 
+        puts $PROMPT+" checkout: "+url+" ("+@revision+") -> "+project.localname
+        checkoutProject(url, @revision, path, project.localname)
+        
+      elsif force then
+        result.values["action"] = "update"
+        puts $PROMPT+" update: "+project.localname+" ("+@revision+")"
+        updateProject(@revision, path, project.localname) 
+        
       else
-        puts $PROMPT+" skip: "+path
+        result.values["action"] = "skip"
+        puts $PROMPT+" skip: "+project.localname
+        
       end
+      result.resolution = Feedback::Result.RESOLUTION[2] # SUCCEED
     end
+    @result.resolution = Feedback::Result.RESOLUTION[2] # SUCCEED
   end
   
 private
@@ -49,12 +64,20 @@ private
     return revision
   end
   
-  def checkoutProject(url, revision, path)
-    sh "svn -r #{revision} checkout #{url} #{path}"
+  def checkoutProject(url, revision, path, localname)
+    
+    out = IO.popen("svn -r #{revision} checkout #{url} #{path}")
+    out.readlines.each do |line|
+      @output.log(localname, line)
+    end
   end
   
-  def updateProject(revision, path)
-    sh "svn -r #{revision} update #{path}"
+  def updateProject(revision, path, localname)
+    
+    out = IO.popen("svn -r #{revision} update #{path}")
+    out.readlines.each do |line|
+      @output.log(localname, line)
+    end
   end
   
 end
