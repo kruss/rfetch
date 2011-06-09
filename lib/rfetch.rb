@@ -2,10 +2,9 @@
 
 require "rake"
 begin
-  $RAKE_DSL = true
   require "rake/dsl_definition"
 rescue LoadError => e
-  $RAKE_DSL = false
+  #nothing
 end
 
 require "pathname"

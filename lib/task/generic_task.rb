@@ -2,10 +2,7 @@ require "rfetch"
 require "task/task_output.rb"
 
 class GenericTask
-
-  if $RAKE_DSL then 
-    include Rake::DSL
-  end
+  include Rake::DSL if defined?(Rake::DSL)
   
   def initialize(name, description, set)
     @name = name

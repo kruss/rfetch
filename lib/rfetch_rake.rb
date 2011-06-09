@@ -10,10 +10,7 @@ require "task/pull_noupdate_task.rb"
 require "task/clean_task.rb"
 
 class RFetch2Rake
-  
-  if $RAKE_DSL then 
-    include Rake::DSL
-  end
+  include Rake::DSL if defined?(Rake::DSL)
   
   def initialize(set)
     @set = set
