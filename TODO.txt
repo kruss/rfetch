@@ -1,0 +1,22 @@
+
+check if better to use backticks with piped streams to fetch both stdout & sterr:
+
+
+  def checkoutProject(root, url, project, revision)
+    url = url+"/"+project.name
+    path = root+"/"+project.localname
+    
+    out = `svn -r #{revision} checkout #{url} #{path} 2>&1`
+    out.each do |line|
+      @output.log(project.localname, line)
+    end
+  end
+
+  def updateProject(root, url, project, revision)
+    path = root+"/"+project.localname
+    
+    out = `svn -r #{revision} update #{path} 2>&1`
+    out.each do |line|
+      @output.log(project.localname, line)
+    end
+  end
