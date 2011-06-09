@@ -5,7 +5,7 @@ create a project-set as rake-file:
 	require 'rfetch'
 	container = Container.new(
 	  SvnProvider.new("svn-url...",
-	  SvnProvider::HEAD_REVISION 
+	  "HEAD|revision..." 
 	 ) 
 	)
 	project foo = Project.new("Bar")

@@ -3,19 +3,23 @@ require "converter/cvs_converter"
 
 class Psf2RakeConverter
   
-  def initialize(psfFile, rakeFile, rootDir, urlMappings)
+  def initialize(psfFile, rakeFile, rootDir, revisionMap, urlMap)
     @psfFile = psfFile 
     @rakeFile = rakeFile
     @rootDir = rootDir
-    @urlMappings = urlMappings
+    @revisionMap = revisionMap
+    @urlMap = urlMap
     @converter = nil
   end
   
   def convert()
     
     parsePsf(IO.readlines(@psfFile))
-    if @urlMappings != nil then
-      applyUrlMapping()
+    if @revisionMap != nil then
+      applyRevisionMap()
+    end
+    if @urlMap != nil then
+      applyUrlMap() # this mapping last !
     end
     rake = createRake()
     write(@rakeFile, rake)
@@ -45,15 +49,29 @@ private
       raise "unsupported nature"
     end
   end
-
-  def applyUrlMapping()
+  
+  def applyRevisionMap()
     
-    @urlMappings.each do |urlMapping|
-      urls = urlMapping.split("=")
+    @revisionMap.each do |map|
+      maps = map.split("=")
       @converter.containers.each do |container|
-        if container.url.eql?(urls[0]) then
-          puts $PROMPT+" adjust: #{urls[0]} -> #{urls[1]}"
-          container.url = urls[1]
+        if container.url.eql?(maps[0]) then
+          puts $PROMPT+" adjust: #{maps[0]} (#{container.revision}) -> (#{maps[1]})"
+          container.revision = maps[1]
+          break
+        end
+      end
+    end
+  end
+
+  def applyUrlMap()
+    
+    @urlMap.each do |map|
+      maps = map.split("=")
+      @converter.containers.each do |container|
+        if container.url.eql?(maps[0]) then
+          puts $PROMPT+" adjust: #{maps[0]} -> #{maps[1]}"
+          container.url = maps[1]
           break
         end
       end

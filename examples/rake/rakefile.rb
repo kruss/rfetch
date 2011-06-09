@@ -1,7 +1,7 @@
 require 'rfetch'
 
 container1 = Container.new(
-  SvnProvider.new("svn://10.40.38.84/cppdemo/trunk", SvnProvider::HEAD_REVISION)
+  SvnProvider.new("svn://10.40.38.84/cppdemo/trunk", "HEAD")
 )
 container1.projects << Project.new("Dummy")
 container1.projects << Project.new("Logger")

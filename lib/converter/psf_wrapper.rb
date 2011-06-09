@@ -1,17 +1,19 @@
 
 class ContainerWrapper
     
-  def initialize(provider, url)
+  def initialize(provider, url, revision)
     @provider = provider
     @url = url
+    @revision = revision
     @projects = Array.new
   end
   attr_accessor :url
+  attr_accessor :revision
   attr_accessor :projects
     
   def createRake(object)
     rake = "#{object} = Container.new(\n"
-    rake << "\t#{@provider}.new(\"#{@url}\", #{@provider}::HEAD_REVISION)\n"
+    rake << "\t#{@provider}.new(\"#{@url}\", \"#{@revision}\")\n"
     rake << ")\n"
     return rake
   end

@@ -47,6 +47,7 @@ private
       if line.index("Revision:") != nil then
         line.slice!("Revision:")
         revision = line.strip
+        break
       end
     end
     return revision

@@ -29,7 +29,7 @@ class SvnPsfConverter
         return container
       end
     end
-    container = ContainerWrapper.new("SvnProvider", url)
+    container = ContainerWrapper.new("SvnProvider", url, SvnProvider::HEAD_REVISION)
     @containers << container
     return container
   end
