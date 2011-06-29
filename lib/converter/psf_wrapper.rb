@@ -1,10 +1,11 @@
+require "provider/generic_provider"
 
 class ContainerWrapper
     
-  def initialize(provider, url, revision)
+  def initialize(provider, url)
     @provider = provider
     @url = url
-    @revision = revision
+    @revision = GenericProvider::HEAD_REVISION
     @projects = Array.new
   end
   attr_accessor :provider

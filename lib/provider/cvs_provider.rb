@@ -2,7 +2,6 @@ require "provider/generic_provider"
 
 class CvsProvider < GenericProvider
   PROVIDER_NAME = "CVS"
-  HEAD_REVISION = "HEAD"
   
   def getName()
     return PROVIDER_NAME

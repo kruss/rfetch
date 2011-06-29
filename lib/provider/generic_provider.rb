@@ -1,7 +1,8 @@
 
 class GenericProvider
+  HEAD_REVISION = "HEAD"
   
-  def initialize(url, revision)
+  def initialize(url, revision = HEAD_REVISION)
     @url = url
     @revision = revision 
     @container = nil

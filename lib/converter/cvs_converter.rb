@@ -27,7 +27,7 @@ class CvsPsfConverter
         return container
       end
     end
-    container = ContainerWrapper.new("CvsProvider", url, CvsProvider::HEAD_REVISION)
+    container = ContainerWrapper.new("CvsProvider", url)
     @containers << container
     return container
   end

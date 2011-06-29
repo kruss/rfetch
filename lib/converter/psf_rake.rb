@@ -1,5 +1,6 @@
 require "converter/svn_converter"
 require "converter/cvs_converter"
+require "provider/generic_provider"
 
 class Psf2RakeConverter
   
@@ -19,7 +20,7 @@ class Psf2RakeConverter
       applyRevisionMap()
     end
     if @urlMap != nil then
-      applyUrlMap() # this mapping last !
+      applyUrlMap() # this mapping at last !
     end
     rake = createRake()
     write(@rakeFile, rake)
@@ -54,10 +55,12 @@ private
     
     @revisionMap.each do |map|
       maps = map.split("=")
+      url = maps[0]
+      revision = maps[1]
       @converter.containers.each do |container|
-        if container.url.eql?(maps[0]) then
-          puts $PROMPT+" adjust: #{maps[0]} (#{container.revision}) -> (#{maps[1]})"
-          container.revision = maps[1]
+        if container.url.eql?(url) then
+          puts $PROMPT+" adjust: #{container.url} (#{container.revision}) -> (#{revision})"
+          container.revision = revision
           break
         end
       end
@@ -68,10 +71,12 @@ private
     
     @urlMap.each do |map|
       maps = map.split("=")
+      url_org = maps[0]
+      url_new = maps[1]
       @converter.containers.each do |container|
-        if container.url.eql?(maps[0]) then
-          puts $PROMPT+" adjust: #{maps[0]} -> #{maps[1]}"
-          container.url = maps[1]
+        if container.url.eql?(url_org) then
+          puts $PROMPT+" adjust: #{container.url} -> #{url_new}"
+          container.url = url_new
           break
         end
       end
@@ -84,7 +89,11 @@ private
     for i in 0..@converter.containers.size()-1 do
       container = @converter.containers[i]
       rake << "\ncontainer_#{i} = Container.new(\n"
-      rake << "\t#{container.provider}.new(\"#{container.url}\", \"#{container.revision}\")\n"
+      if container.revision.eql?(GenericProvider::HEAD_REVISION) then
+        rake << "\t#{container.provider}.new(\"#{container.url}\")\n"
+      else
+        rake << "\t#{container.provider}.new(\"#{container.url}\", \"#{container.revision}\")\n"
+      end
       rake << ")\n"    
       
       for j in 0..container.projects.size()-1 do

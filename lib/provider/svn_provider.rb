@@ -2,7 +2,6 @@ require "provider/generic_provider"
 
 class SvnProvider < GenericProvider
   PROVIDER_NAME = "SVN"
-  HEAD_REVISION = "HEAD"
   
   def getName()
     return PROVIDER_NAME
