@@ -83,14 +83,22 @@ private
     rake = "require 'rfetch'\n"
     for i in 0..@converter.containers.size()-1 do
       container = @converter.containers[i]
-      rake << "\n"+container.createRake("container_#{i}")
+      rake << "\ncontainer_#{i} = Container.new(\n"
+      rake << "\t#{container.provider}.new(\"#{container.url}\", \"#{container.revision}\")\n"
+      rake << ")\n"    
+      
       for j in 0..container.projects.size()-1 do
         project = container.projects[j]
-        rake << project.createRake("project_#{i}_#{j}")
-        rake << "container_#{i}.projects << project_#{i}_#{j}\n"
+        rake << "container_#{i}.projects << "
+        if project.name.eql?(project.localname) then
+          rake << "Project.new(\"#{project.name}\")\n"
+        else
+          rake << "Project.new(\"#{project.name}\", \"#{project.localname}\")\n"
+        end
+        
       end
     end
-    #...
+
     rake << "\nset = ProjectSet.new(\"#{@rootDir}\")\n"
     for i in 0..@converter.containers.size()-1 do
       rake << "\tset.containers << container_#{i}\n"

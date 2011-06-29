@@ -9,9 +9,7 @@ container1.projects << Project.new("Logger")
 container2 = Container.new(
   SvnProvider.new("svn://10.40.38.84/cppdemo/branches/test1", "75")
 )
-  foo = Project.new("FooLib")
-  foo.localname = "FooLib1"
-container2.projects << foo
+container2.projects << Project.new("FooLib", "FooLib1")
 container2.projects << Project.new("FooLib2")
 
 set = ProjectSet.new(".")

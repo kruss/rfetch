@@ -7,16 +7,10 @@ class ContainerWrapper
     @revision = revision
     @projects = Array.new
   end
+  attr_accessor :provider
   attr_accessor :url
   attr_accessor :revision
   attr_accessor :projects
-    
-  def createRake(object)
-    rake = "#{object} = Container.new(\n"
-    rake << "\t#{@provider}.new(\"#{@url}\", \"#{@revision}\")\n"
-    rake << ")\n"
-    return rake
-  end
 end
   
 class ProjectWrapper
@@ -27,12 +21,4 @@ class ProjectWrapper
   end
   attr_accessor :name
   attr_accessor :localname
-  
-  def createRake(object)
-    rake = "#{object} = Project.new(\"#{@name}\")\n"
-    if !@name.eql?(@localname) then
-      rake << "\t#{object}.localname = \"#{@localname}\"\n"
-    end
-    return rake
-  end
 end

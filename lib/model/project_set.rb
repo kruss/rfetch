@@ -37,9 +37,9 @@ end
 
 class Project
   
-  def initialize(name)
+  def initialize(name, localname = name)
     @name = name
-    @localname = name
+    @localname = localname
   end
   attr_accessor :name
   attr_accessor :localname
