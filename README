@@ -3,15 +3,17 @@ rfetch is a ruby gem to manage project-sets for different repositories
 create a project-set as rake-file:
 
 	require 'rfetch'
-	container_1 = Container.new(SvnProvider.new("<url>"))
-	container_1.projects << Project.new("<name>")
+	container1 = Container.new(SvnProvider.new("<url>"))
+	container1.projects \
+		<< Project.new("<name>") \
+		<< Project.new("<name>", "<localname>") \
 	...
-	container_2 = Container.new(SvnProvider.new("<url>", "<revision>"))
-	container_2.projects << Project.new("<name>", "<localname>")
+	container2 = Container.new(SvnProvider.new("<url>", "<revision>"))
 	...
 	set = ProjectSet.new("<root-folder>") 
-	set.containers << container_1
-	set.containers << container_2
+	set.containers \
+		<< container1 \
+		<< container2 \
 	...
 	RFetch2Rake.new(set)
 	
@@ -22,6 +24,5 @@ pull the project-set:
 convert eclipse psf-file to rake-file: 
 
 	rfetch psf2rake -f <psf-file>
-	
 	
 more to come...

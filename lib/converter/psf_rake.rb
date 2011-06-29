@@ -87,8 +87,9 @@ private
     
     rake = "require 'rfetch'\n"
     for i in 0..@converter.containers.size()-1 do
+      
       container = @converter.containers[i]
-      rake << "\ncontainer_#{i} = Container.new(\n"
+      rake << "\ncontainer#{(i+1)} = Container.new(\n"
       if container.revision.eql?(GenericProvider::HEAD_REVISION) then
         rake << "\t#{container.provider}.new(\"#{container.url}\")\n"
       else
@@ -96,23 +97,38 @@ private
       end
       rake << ")\n"    
       
-      for j in 0..container.projects.size()-1 do
-        project = container.projects[j]
-        rake << "container_#{i}.projects << "
-        if project.name.eql?(project.localname) then
-          rake << "Project.new(\"#{project.name}\")\n"
-        else
-          rake << "Project.new(\"#{project.name}\", \"#{project.localname}\")\n"
+      if container.projects.size() > 0 then
+        rake << "container#{(i+1)}.projects \\\n"
+        for j in 0..container.projects.size()-1 do
+          project = container.projects[j]
+          if project.name.eql?(project.localname) then
+            rake << "\t<< Project.new(\"#{project.name}\")"
+          else
+            rake << "\t<< Project.new(\"#{project.name}\", \"#{project.localname}\")"
+          end       
+          if j < container.projects.size()-1 then
+            rake << " \\\n"
+          else
+            rake << "\n"
+          end
         end
-        
       end
     end
 
     rake << "\nset = ProjectSet.new(\"#{@rootDir}\")\n"
-    for i in 0..@converter.containers.size()-1 do
-      rake << "\tset.containers << container_#{i}\n"
+    if @converter.containers.size() > 0 then
+      rake << "set.containers \\\n"
+      for i in 0..@converter.containers.size()-1 do
+        rake << "\t<< container#{(i+1)}"
+        if i < @converter.containers.size()-1 then
+          rake << " \\\n"
+        else
+          rake << "\n"
+        end
+      end
     end
-    rake << "RFetch2Rake.new(set)\n" 
+    rake << "\nRFetch2Rake.new(set)\n" 
+    
     return rake
   end
   
