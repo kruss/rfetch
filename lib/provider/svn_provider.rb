@@ -21,8 +21,8 @@ protected
     url = url+"/"+project.name
     path = root+"/"+project.localname
     
-    out = IO.popen("svn -r #{revision} checkout #{url} #{path}")
-    out.readlines.each do |line|
+    out = call("svn -r #{revision} checkout #{url}@#{revision} #{path}")
+    out.each_line do |line|
       @output.log(project.localname, line)
     end
   end
@@ -30,8 +30,8 @@ protected
   def updateProject(root, url, project, revision)
     path = root+"/"+project.localname
     
-    out = IO.popen("svn -r #{revision} update #{path}")
-    out.readlines.each do |line|
+    out = call("svn -r #{revision} update #{path}")
+    out.each_line do |line|
       @output.log(project.localname, line)
     end
   end
@@ -41,8 +41,8 @@ private
   def getHeadRevision(url)
 
     revision = nil
-    out = IO.popen("svn info #{url}")
-    out.readlines.each do |line|
+    out = call("svn info #{url}")
+    out.each_line do |line|
       if line.index("Revision:") != nil then
         line.slice!("Revision:")
         revision = line.strip

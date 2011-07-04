@@ -16,8 +16,8 @@ protected
   def checkoutProject(root, url, project, revision)
 
     cd root do
-      out = IO.popen("cvs -d #{url} checkout -r #{revision} -d #{project.localname} #{project.name}")
-      out.readlines.each do |line|
+      out = call("cvs -d #{url} checkout -r #{revision} -d #{project.localname} #{project.name}")
+      out.each_line do |line|
         @output.log(project.localname, line)
       end
     end
@@ -26,8 +26,8 @@ protected
   def updateProject(root, url, project, revision)
     
     cd root do
-      out = IO.popen("cvs -d #{url} update -r #{revision} -d #{project.localname}")
-      out.readlines.each do |line|
+      out = call("cvs -d #{url} update -r #{revision} -d #{project.localname}")
+      out.each_line do |line|
         @output.log(project.localname, line)
       end
     end

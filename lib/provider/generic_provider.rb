@@ -63,4 +63,13 @@ protected
     raise NotImplementedError.new()
   end
   
+  def call(cmd)
+    out = `#{cmd} 2>&1`
+    res = $?.to_i
+    if res != 0 then
+      raise "ERROR on CMD: '#{cmd}' (#{res}) >>>\n#{out}<<<"
+    end
+    return out
+  end
+  
 end

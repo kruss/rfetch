@@ -1,6 +1,10 @@
 require "rake"
 sh "cls"
 
+cd "../.." do
+  sh "rake install"
+end
+
 puts "\n### INFO (RAKE) ###\n"
 sh "rake"
 sh "rake -T"

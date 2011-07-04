@@ -1,6 +1,10 @@
 require "rake"
 sh "cls"
 
+cd "../.." do
+  sh "rake install"
+end
+
 puts "\n### INFO (GEM) ###\n"
 sh "rfetch"
 
