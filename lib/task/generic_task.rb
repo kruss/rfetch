@@ -8,8 +8,7 @@ class GenericTask
     @name = name
     @description = description
     @set = set
-    @output = TaskOutput.new(@set.getRoot()+"/.#{$APP_NAME}")
-
+    @output = TaskOutput.new(@set.getRoot()+"/.#{$APP_NAME}");
   end
   
   def initTask()
@@ -25,5 +24,5 @@ protected
   def runTask()
     raise NotImplementedError.new()
   end
-  
+
 end

@@ -10,8 +10,18 @@ class SvnProvider < GenericProvider
   def adjust()
     
     if @revision.eql?(HEAD_REVISION) then
-      @revision = getHeadRevision(@url)
-      puts $PROMPT+" adjust: #{@url} (#{HEAD_REVISION}) -> (#{@revision})"
+      revision = getHeadRevision(@url)
+      if revision != nil then
+        puts $PROMPT+" adjust: #{@url} (#{@revision}) -> (#{revision})"
+        @revision = revision
+      else
+        message = "Could not adjust #{HEAD_REVISION} revision: #{@url}"
+        if $STRICT then
+          raise message
+        else
+          puts $PROMPT+" !!! Error !!! #{message}"
+        end
+      end
     end
   end
   

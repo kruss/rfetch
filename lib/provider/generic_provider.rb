@@ -32,22 +32,20 @@ class GenericProvider
     @container.projects.each do |project|
       result = Feedback::Result.new(project.localname)
       @result.results << result
-      
+
       if !FileTest.directory?(root+"/"+project.localname) then 
         result.values["action"] = "checkout"
         puts $PROMPT+" checkout: "+@url+"/"+project.name+" ("+@revision+") -> "+project.localname
-        checkoutProject(root, @url, project, @revision)
-        
+        checkoutProject(root, @url, project, @revision)         
       elsif force then
         result.values["action"] = "update"
         puts $PROMPT+" update: "+project.localname+" ("+@revision+")"
-        updateProject(root, @url, project, @revision) 
-        
+        updateProject(root, @url, project, @revision)          
       else
         result.values["action"] = "skip"
-        puts $PROMPT+" skip: "+project.localname
-        
+        puts $PROMPT+" skip: "+project.localname          
       end
+
       result.resolution = Feedback::Result.RESOLUTION[2] # SUCCEED
     end
     @result.resolution = Feedback::Result.RESOLUTION[2] # SUCCEED
@@ -64,10 +62,21 @@ protected
   end
   
   def call(cmd)
+    if $VERBOSE then
+      puts $PROMPT+" CMD: '#{cmd}'"
+    end
     out = `#{cmd} 2>&1`
     res = $?.to_i
+    if $VERBOSE then
+      puts $PROMPT+" => (#{res}) [\n#{out}]"
+    end
     if res != 0 then
-      raise "ERROR on CMD: '#{cmd}' (#{res}) >>>\n#{out}<<<"
+      message = "CMD failed: '#{cmd}' (#{res})"
+      if $STRICT then
+        raise message
+      else
+        puts $PROMPT+" !!! Error !!! #{message}"
+      end
     end
     return out
   end

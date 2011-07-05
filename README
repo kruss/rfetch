@@ -19,7 +19,7 @@ create a project-set as rake-file:
 	
 pull the project-set: 
 
-	rake pull
+	rake pull [strict=<bool>] [verbose=<bool>]
 
 convert eclipse psf-file to rake-file: 
 
