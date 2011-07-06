@@ -1,6 +1,9 @@
 
 class GenericProvider
-  HEAD_REVISION = "HEAD"
+  HEAD_REVISION     = "HEAD"
+  PULL_FULL         = 1
+  PULL_NOUPDATE     = 2
+  PULL_EXPORT       = 3
   
   def initialize(url, revision = HEAD_REVISION)
     @url = url
@@ -21,7 +24,7 @@ class GenericProvider
     raise NotImplementedError.new()
   end
   
-  def pull(force)
+  def pull(mode)
     
     @result = Feedback::Result.new(@url)
     @result.values["provider"] = getName()
@@ -32,15 +35,20 @@ class GenericProvider
     @container.projects.each do |project|
       result = Feedback::Result.new(project.localname)
       @result.results << result
-
-      if !FileTest.directory?(root+"/"+project.localname) then 
+   
+      path = root+"/"+project.localname
+      if !FileTest.directory?(path) && (mode == PULL_FULL || mode == PULL_NOUPDATE) then 
         result.values["action"] = "checkout"
         puts $PROMPT+" checkout: "+@url+"/"+project.name+" ("+@revision+") -> "+project.localname
-        checkoutProject(root, @url, project, @revision)         
-      elsif force then
+        checkoutProject(root, @url, project, @revision)   
+      elsif FileTest.directory?(path) && mode == PULL_FULL then
         result.values["action"] = "update"
         puts $PROMPT+" update: "+project.localname+" ("+@revision+")"
         updateProject(root, @url, project, @revision)          
+      elsif !FileTest.directory?(path) && mode == PULL_EXPORT then 
+        result.values["action"] = "export"
+        puts $PROMPT+" export "+@url+"/"+project.name+" ("+@revision+") -> "+project.localname
+        exportProject(root, @url, project, @revision)
       else
         result.values["action"] = "skip"
         puts $PROMPT+" skip: "+project.localname          
@@ -67,16 +75,15 @@ protected
     end
     out = `#{cmd} 2>&1`
     res = $?.to_i
-    if $VERBOSE then
-      puts $PROMPT+" => (#{res}) [\n#{out}]"
-    end
     if res != 0 then
-      message = "CMD failed: '#{cmd}' (#{res})"
+      message = "CMD failed: '#{cmd}' (#{res}) [\n#{out}]"
       if $STRICT then
         raise message
       else
         puts $PROMPT+" !!! Error !!! #{message}"
-      end
+      end      
+    elsif $VERBOSE then
+      puts $PROMPT+" => (#{res}) [\n#{out}]"
     end
     return out
   end

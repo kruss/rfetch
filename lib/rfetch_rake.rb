@@ -7,6 +7,7 @@ require "provider/cvs_provider"
 require "task/info_task.rb"
 require "task/pull_task.rb"
 require "task/pull_noupdate_task.rb"
+require "task/pull_export_task.rb"
 require "task/clean_task.rb"
 
 class RFetch2Rake
@@ -31,6 +32,7 @@ private
     @tasks << infoTask
   
     @tasks << PullTask.new(@set).initTask()
+    @tasks << PullExportTask.new(@set).initTask()
     @tasks << PullNoUpdateTask.new(@set).initTask()
     @tasks << CleanTask.new(@set).initTask()
   end

@@ -9,6 +9,12 @@ puts "\n### INFO (RAKE) ###\n"
 sh "rake"
 sh "rake -T"
 
+puts "\n### PULL (EXPORT) ###\n"
+sh "rake pull-export"
+
+puts "\n### CLEAN ###\n"
+sh "rake clean"
+
 puts "\n### PULL (CHECKOUT) ###\n"
 sh "rake pull"
 

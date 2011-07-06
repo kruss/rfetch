@@ -37,6 +37,16 @@ protected
     end
   end
 
+  def exportProject(root, url, project, revision)
+    url = url+"/"+project.name
+    path = root+"/"+project.localname
+    
+    out = call("svn -r #{revision} export #{url}@#{revision} #{path}")
+    out.each_line do |line|
+      @output.log(project.localname, line)
+    end
+  end
+  
   def updateProject(root, url, project, revision)
     path = root+"/"+project.localname
     

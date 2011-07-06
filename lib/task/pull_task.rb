@@ -15,7 +15,7 @@ class PullTask < GenericTask
         container.provider.adjust()
       end
       @set.containers.each do |container|
-        container.provider.pull(true)
+        container.provider.pull(GenericProvider::PULL_FULL)
       end
       
     ensure
