@@ -1,4 +1,5 @@
 require "provider/generic_provider"
+require "util/command"
 
 class SvnProvider < GenericProvider
   PROVIDER_NAME = "SVN"
@@ -31,7 +32,7 @@ protected
     url = url+"/"+project.name
     path = root+"/"+project.localname
     
-    out = call("svn -r #{revision} checkout #{url}@#{revision} #{path}")
+    out = Command.call("svn -r #{revision} checkout #{url}@#{revision} #{path}")
     out.each_line do |line|
       @output.log(project.localname, line)
     end
@@ -41,7 +42,7 @@ protected
     url = url+"/"+project.name
     path = root+"/"+project.localname
     
-    out = call("svn -r #{revision} export #{url}@#{revision} #{path}")
+    out = Command.call("svn -r #{revision} export #{url}@#{revision} #{path}")
     out.each_line do |line|
       @output.log(project.localname, line)
     end
@@ -50,7 +51,7 @@ protected
   def updateProject(root, url, project, revision)
     path = root+"/"+project.localname
     
-    out = call("svn -r #{revision} update #{path}")
+    out = Command.call("svn -r #{revision} update #{path}")
     out.each_line do |line|
       @output.log(project.localname, line)
     end
@@ -61,7 +62,7 @@ private
   def getHeadRevision(url)
 
     revision = nil
-    out = call("svn info #{url}")
+    out = Command.call("svn info #{url}")
     out.each_line do |line|
       if line.index("Revision:") != nil then
         line.slice!("Revision:")

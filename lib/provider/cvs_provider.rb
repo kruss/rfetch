@@ -1,4 +1,5 @@
 require "provider/generic_provider"
+require "util/command"
 
 class CvsProvider < GenericProvider
   PROVIDER_NAME = "CVS"
@@ -15,7 +16,7 @@ protected
 
   def checkoutProject(root, url, project, revision)
     cd root do
-      out = call("cvs -d #{url} checkout -r #{revision} -d #{project.localname} #{project.name}")
+      out = Command.call("cvs -d #{url} checkout -r #{revision} -d #{project.localname} #{project.name}")
       out.each_line do |line|
         @output.log(project.localname, line)
       end
@@ -24,7 +25,7 @@ protected
 
   def exportProject(root, url, project, revision)
     cd root do
-      out = call("cvs -d #{url} export -r #{revision} -d #{project.localname} #{project.name}")
+      out = Command.call("cvs -d #{url} export -r #{revision} -d #{project.localname} #{project.name}")
       out.each_line do |line|
         @output.log(project.localname, line)
       end
@@ -33,7 +34,7 @@ protected
   
   def updateProject(root, url, project, revision)
     cd root do
-      out = call("cvs -d #{url} update -r #{revision} -d #{project.localname}")
+      out = Command.call("cvs -d #{url} update -r #{revision} -d #{project.localname}")
       out.each_line do |line|
         @output.log(project.localname, line)
       end
