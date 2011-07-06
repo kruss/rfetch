@@ -5,7 +5,7 @@ require "converter/psf_rake"
 class ConvertCommand < GenericCommand
 
   def initialize()
-    super("psf2rake", "Convert a psf-File to rake-file")
+    super("psf2rake", "Convert a psf-file to rake-file")
   end
   
   def initOptions()
