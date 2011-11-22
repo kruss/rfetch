@@ -1,4 +1,4 @@
-require 'rfetch'
+require "rfetch/rfetch"
 
 container1 = Container.new(
   SvnProvider.new("svn://10.40.38.84/cppdemo/trunk")

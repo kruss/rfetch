@@ -40,25 +40,36 @@ class GenericProvider
         project_result.status = Result.STATUS_ERROR
         container_result.results << project_result
       end
-    
       path = root+"/"+project.localname
+      
       if !FileTest.directory?(path) && (mode == PULL_FULL || mode == PULL_NOUPDATE) then 
-        project_result.properties["action"] = "checkout"
+        if $FEEDBACK then
+          project_result.properties["action"] = "checkout"
+        end
         puts $PROMPT+" checkout: "+@url+"/"+project.name+" ("+@revision+") -> "+project.localname
         checkoutProject(root, @url, project, @revision)   
+        
       elsif FileTest.directory?(path) && mode == PULL_FULL then
-        project_result.properties["action"] = "update"
+        if $FEEDBACK then
+          project_result.properties["action"] = "update"
+        end
         puts $PROMPT+" update: "+project.localname+" ("+@revision+")"
         updateProject(root, @url, project, @revision)          
+        
       elsif !FileTest.directory?(path) && mode == PULL_EXPORT then 
-        project_result.properties["action"] = "export"
+        if $FEEDBACK then
+          project_result.properties["action"] = "export"
+        end
         puts $PROMPT+" export "+@url+"/"+project.name+" ("+@revision+") -> "+project.localname
         exportProject(root, @url, project, @revision)
+        
       else
-        project_result.properties["action"] = "skip"
+        if $FEEDBACK then
+          project_result.properties["action"] = "skip"
+        end
         puts $PROMPT+" skip: "+project.localname          
       end
-
+      
       if $FEEDBACK then
         project_result.status = Result.STATUS_SUCCEED
       end

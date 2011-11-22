@@ -85,7 +85,7 @@ private
   
   def createRake()
     
-    rake = "require 'rfetch'\n"
+    rake = "require \"rfetch/rfetch\"\n"
     for i in 0..@converter.containers.size()-1 do
       
       container = @converter.containers[i]
