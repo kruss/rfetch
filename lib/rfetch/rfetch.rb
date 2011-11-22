@@ -1,14 +1,14 @@
 # external requires and constants here
 
 require "rake"
+require "pathname"
+require "optparse"
+
 begin
   require "rake/dsl_definition"
 rescue LoadError => e
   #nothing
 end
-
-require "pathname"
-require "optparse"
 
 begin
   require "feedback/feedback"
