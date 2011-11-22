@@ -9,10 +9,16 @@ end
 
 require "pathname"
 require "optparse"
-require "feedback"
 
-require "rfetch_rake"
-require "rfetch_gem"
+begin
+  require "feedback/feedback"
+  $FEEDBACK = true
+rescue LoadError => e
+  $FEEDBACK = false
+end
+
+require "rfetch/rfetch_rake"
+require "rfetch/rfetch_gem"
 
 def getFlag(flag, default)
   if ENV[flag] != nil then

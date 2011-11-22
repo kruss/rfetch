@@ -1,4 +1,4 @@
-require "converter/psf_wrapper"
+require "rfetch/converter/psf_wrapper"
 
 class SvnPsfConverter
   

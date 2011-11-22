@@ -1,5 +1,5 @@
-require "provider/generic_provider"
-require "util/command"
+require "rfetch/provider/generic_provider"
+require "rfetch/util/command"
 
 class CvsProvider < GenericProvider
   PROVIDER_NAME = "CVS"

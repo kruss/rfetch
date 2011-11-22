@@ -1,13 +1,15 @@
 # actions provided by the gem here
 
-require "rfetch"
-require "command/convert_command"
+require "rfetch/rfetch"
+require "rfetch/command/convert_command"
+require "rfetch/command/fetch_command"
 
 class RFetchGem
 
 	def initialize()
     @commands = Array.new
     @commands << ConvertCommand.new()
+    @commands << FetchCommand.new()
 	end
 	
 	def run()

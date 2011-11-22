@@ -1,6 +1,5 @@
-require "command/generic_command"
-require "converter/psf_rake"
-
+require "rfetch/command/generic_command"
+require "rfetch/converter/psf_rake"
 
 class ConvertCommand < GenericCommand
 

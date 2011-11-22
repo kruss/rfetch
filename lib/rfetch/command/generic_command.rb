@@ -1,4 +1,4 @@
-require "rfetch"
+require "rfetch/rfetch"
 
 class GenericCommand
   

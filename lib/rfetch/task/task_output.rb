@@ -3,7 +3,11 @@ class TaskOutput
   
   def initialize(folder)
     @folder = folder
-    @feedback = Feedback::Feedback.new()
+    if $FEEDBACK then
+      @feedback = Feedback.new()
+    else
+      @feedback = nil
+    end
     @init = false
   end
   attr_accessor :folder
@@ -25,7 +29,9 @@ class TaskOutput
   def close()
     
     if @init then
-      @feedback.serialize(@folder+"/"+Feedback::Feedback.OUTPUT_FILE)
+      if $FEEDBACK then
+        @feedback.serialize(@folder+"/"+Feedback.OUTPUT_FILE)
+      end
       @init = false
     else
       raise "invalid state"     

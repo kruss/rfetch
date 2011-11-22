@@ -1,5 +1,5 @@
-require "rfetch"
-require "task/task_output.rb"
+require "rfetch/rfetch"
+require "rfetch/task/task_output.rb"
 
 class GenericTask
   include Rake::DSL if defined?(Rake::DSL)

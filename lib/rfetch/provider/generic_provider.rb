@@ -25,43 +25,56 @@ class GenericProvider
   end
   
   def pull(mode)
-    
-    @result = Feedback::Result.new(@url)
-    @result.values["provider"] = getName()
-    @result.values["revision"] = @revision
-    @output.feedback.results << @result
+    if $FEEDBACK then
+      container_result = Result.new(@url)
+      container_result.properties["provider"] = getName()
+      container_result.properties["revision"] = @revision
+      container_result.status = Result.STATUS_ERROR
+      @output.feedback.results << container_result
+    end
     
     root = @container.set.getRoot()
     @container.projects.each do |project|
-      result = Feedback::Result.new(project.localname)
-      @result.results << result
-   
+      if $FEEDBACK then
+        project_result = Result.new(project.localname)
+        project_result.status = Result.STATUS_ERROR
+        container_result.results << project_result
+      end
+    
       path = root+"/"+project.localname
       if !FileTest.directory?(path) && (mode == PULL_FULL || mode == PULL_NOUPDATE) then 
-        result.values["action"] = "checkout"
+        project_result.properties["action"] = "checkout"
         puts $PROMPT+" checkout: "+@url+"/"+project.name+" ("+@revision+") -> "+project.localname
         checkoutProject(root, @url, project, @revision)   
       elsif FileTest.directory?(path) && mode == PULL_FULL then
-        result.values["action"] = "update"
+        project_result.properties["action"] = "update"
         puts $PROMPT+" update: "+project.localname+" ("+@revision+")"
         updateProject(root, @url, project, @revision)          
       elsif !FileTest.directory?(path) && mode == PULL_EXPORT then 
-        result.values["action"] = "export"
+        project_result.properties["action"] = "export"
         puts $PROMPT+" export "+@url+"/"+project.name+" ("+@revision+") -> "+project.localname
         exportProject(root, @url, project, @revision)
       else
-        result.values["action"] = "skip"
+        project_result.properties["action"] = "skip"
         puts $PROMPT+" skip: "+project.localname          
       end
 
-      result.resolution = Feedback::Result.RESOLUTION[2] # SUCCEED
+      if $FEEDBACK then
+        project_result.status = Result.STATUS_SUCCEED
+      end
     end
-    @result.resolution = Feedback::Result.RESOLUTION[2] # SUCCEED
+    if $FEEDBACK then
+      container_result.status = Result.STATUS_SUCCEED
+    end
   end
 
 protected
 
   def checkoutProject(root, url, project, revision)
+    raise NotImplementedError.new()
+  end
+  
+  def exportProject(root, url, project, revision)
     raise NotImplementedError.new()
   end
   

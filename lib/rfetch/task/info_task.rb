@@ -1,4 +1,4 @@
-require "task/generic_task.rb"
+require "rfetch/task/generic_task.rb"
 
 class InfoTask < GenericTask
   

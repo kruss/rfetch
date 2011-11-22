@@ -1,4 +1,4 @@
-require "provider/generic_provider"
+require "rfetch/provider/generic_provider"
 
 class ContainerWrapper
     

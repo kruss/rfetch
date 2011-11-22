@@ -1,9 +1,9 @@
-require "task/generic_task.rb"
+require "rfetch/task/generic_task.rb"
 
-class PullTask < GenericTask
+class PullNoUpdateTask < GenericTask
   
   def initialize(set)
-    super("pull", "pull project-set", set)
+    super("pull-noupdate", "pull project-set without update", set)
   end
   
   def runTask()
@@ -15,7 +15,7 @@ class PullTask < GenericTask
         container.provider.adjust()
       end
       @set.containers.each do |container|
-        container.provider.pull(GenericProvider::PULL_FULL)
+        container.provider.pull(GenericProvider::PULL_NOUPDATE)
       end
       
     ensure

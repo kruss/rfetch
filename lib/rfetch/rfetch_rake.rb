@@ -1,14 +1,14 @@
 # actions provided by rake-extention here
 
-require "rfetch"
-require "model/project_set"
-require "provider/svn_provider"
-require "provider/cvs_provider"
-require "task/info_task.rb"
-require "task/pull_task.rb"
-require "task/pull_noupdate_task.rb"
-require "task/pull_export_task.rb"
-require "task/clean_task.rb"
+require "rfetch/rfetch"
+require "rfetch/model/project_set"
+require "rfetch/provider/svn_provider"
+require "rfetch/provider/cvs_provider"
+require "rfetch/task/info_task.rb"
+require "rfetch/task/pull_task.rb"
+require "rfetch/task/pull_noupdate_task.rb"
+require "rfetch/task/pull_export_task.rb"
+require "rfetch/task/clean_task.rb"
 
 class RFetch2Rake
   include Rake::DSL if defined?(Rake::DSL)

@@ -1,6 +1,6 @@
-require "converter/svn_converter"
-require "converter/cvs_converter"
-require "provider/generic_provider"
+require "rfetch/converter/svn_converter"
+require "rfetch/converter/cvs_converter"
+require "rfetch/provider/generic_provider"
 
 class Psf2RakeConverter
   
